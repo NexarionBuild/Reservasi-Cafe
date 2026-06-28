@@ -77,7 +77,7 @@
         
          <div class="mt-10 w-full h-auto clear-both block relative">
             <p class="font-bold text-gray-600 mb-6">
-            - Dessert
+            - Dessert 
             </p>
             <!-- Grid Menu Dessert -->
            <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 h-auto">

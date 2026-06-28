@@ -171,7 +171,7 @@
 
                 <div
                     class="border-t border-gray-200 dark:border-gray-700 pt-6 text-center text-sm text-text-muted-light dark:text-text-muted-dark">
-                    <p>Hak Cipta © Copyright 2025. Kopi Senja.</p>
+                    <p>Hak Cipta © Copyright 2026. Kopi Satu Bang @HoodHGL.</p>
                 </div>
             </div>
         </footer>

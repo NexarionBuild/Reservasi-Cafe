@@ -48,8 +48,8 @@
                     <select name="ruangan" id="ruangan"
                         class="w-full rounded-lg border border-gray-300 px-3 py-2
                                focus:ring-primary focus:border-primary transition text-gray-700">
-                        <option value="Indor1">Indor 1</option>
-                        <option value="Indor2">Indor 2</option>
+                        <option value="Indor1">Indor</option>
+                        {{-- <option value="Indor2">Indor 2</option> --}}
                         <option value="Outdor">Outdor</option>
                     </select>
                 </div>

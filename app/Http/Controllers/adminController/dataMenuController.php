@@ -173,22 +173,54 @@ class dataMenuController extends Controller
         $namaFile = Str::random(10) . '.' . $request->gambar->extension();
         $path = $request->gambar->storeAs('menu', $namaFile, 'public');
 
-        
-        // Simpan data
-        menuModel::create([
-            // 'id_menu'   => $this->generateIdMenu(),
-            'id_pengelola' => Session::get('id_pengelola'),
-            'nama_menu' => $request->nama_menu,
-            'kategori'  => $request->jenis,
-            'harga'     => $request->harga,
-            'deskripsi' => $request->deskripsi,
-            'gambar'    => $path, 
-            'stok'      => $request->stok, 
-            'jenis'     => $request->kategori,
-        ]);
+        // dd($request->all());
 
-        return redirect()
-            ->route('admin.dashboard')
-            ->with('success', 'Menu berhasil ditambahkan!');
+        try {
+            // Simpan data
+            DB::table('menu')->insert([
+                // 'id_menu'   => $this->generateIdMenu(),
+                'id_pengelola' => Session::get('id_pengelola'),
+                'nama_menu' => $request->nama_menu,
+                'kategori'  => $request->jenis,
+                'harga'     => $request->harga,
+                'deskripsi' => $request->deskripsi,
+                'gambar'    => $path, 
+                'stok'      => $request->stok, 
+                'jenis'     => $request->kategori,
+            ]);
+
+            
+
+            if ($request->jenis === 'minuman') {
+                # code...
+                return redirect()
+                ->route('showMinuman')
+                ->with('success', 'Menu berhasil ditambahkan!');
+            }else{
+                return redirect()
+                ->route('showMakanan')
+                ->with('success', 'Menu berhasil ditambahkan!');
+
+            }
+            
+        } catch (\Throwable $th) {
+            // dd($th);
+             if ($request->jenis === 'minuman') {
+                return redirect()
+                ->route('showMinuman')
+                ->with('gagal', 'Menu gagal ditambahkan!');
+            }else{
+                return redirect()
+                ->route('showMakanan')
+                ->with('gagal', 'Menu gagal ditambahkan!');
+
+            }
+       }
+
+        // dd($request->all());
+
+
+
+      
     }
 }

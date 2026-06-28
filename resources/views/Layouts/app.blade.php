@@ -68,7 +68,7 @@
                 <!-- KIRI: LOGO -->
                 <div class="flex-shrink-0">
                     <a href="{{ $homeNavRoute }}" class="font-display text-2xl font-bold text-primary">
-                        Double R Coffee
+                        Kopi Satu Bang @HoodHGL
                     </a>
                 </div>
 
@@ -227,31 +227,26 @@
                 <div class="container mx-auto px-6">
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                         <div class="md:col-span-1">
-                            <h4 class="font-display text-xl font-bold text-primary mb-4">Double R Coffee</h4>
+                            <h4 class="font-display text-xl font-bold text-primary mb-4">Kopi Satu Bang @HoodHGL</h4>
                             <p class="text-text-muted-light dark:text-text-muted-dark text-sm mb-4">
                                 {{ file_exists(resource_path('kopi_senja.txt')) ? file_get_contents(resource_path('kopi_senja.txt')) : 'Cafe adalah tempat bersantai untuk semua kalangan dari anak muda sampai di kalangan orang tua juga.' }}
                             </p>
                             <div class="flex space-x-4">
                                 <a aria-label="Facebook"
                                     class="text-text-light dark:text-text-dark hover:text-primary dark:hover:text-white transition-colors duration-300"
-                                    href="https://www.facebook.com/doubleR.patrol?mibextid=rS40aB7S9Ucbxw6v"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    href="https://www.facebook.com/profile.php?id=100064119011303&mibextid=rS40aB7S9Ucbxw6v"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                                         <path
                                             d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z">
                                         </path>
                                     </svg></a>
                                 <a aria-label="Instagram"
                                     class="text-text-light dark:text-text-dark hover:text-primary dark:hover:text-white transition-colors duration-300"
-                                    href="https://www.instagram.com/doubler_patrol?igsh=NnhmaTRneTFrcTdp"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    href="https://www.instagram.com/hood.space?igsh=cHF1ZDlrd3ljdXFt"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                                         <path
                                             d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.069-1.645-.069-4.85s.011-3.584.069-4.85c.149-3.225 1.664-4.771 4.919-4.919 1.266-.057 1.644-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.059-1.281.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98C15.667.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z">
                                         </path>
                                     </svg></a>
-                                <a aria-label="Threads"
-                                    class="text-text-light dark:text-text-dark hover:text-primary dark:hover:text-white transition-colors duration-300" 
-                                    href="https://www.threads.com/@doubler_patrol"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                    <path 
-                                        d="M12.553 14.1c.38 0 .72-.07 1.04-.22.31-.15.56-.36.75-.64.19-.28.28-.6.28-.97 0-.37-.09-.69-.28-.97-.19-.28-.44-.5-.75-.64-.32-.15-.66-.22-1.04-.22-.39 0-.74.07-1.05.22-.31.14-.56.36-.75.64-.19.28-.28.6-.28.97 0 .37.09.69.28.97.19.28.44.5.75.64.31.15.66.22 1.05.22zM24 12c0 6.627-5.373 12-12 12S0 18.627 0 12 5.373 0 12 0s12 5.373 12 12zm-6.222.18c0-1.42-.317-2.6-.95-3.543-.632-.943-1.545-1.414-2.737-1.414-1.127 0-2.006.417-2.637 1.252V8.374H9.376v10.052h2.078v-4.133c.536.657 1.306.985 2.31.985 1.15 0 2.052-.454 2.707-1.363.655-.908.983-2.152.983-3.735h-.076z"/>
-                                    </svg></a>
+                               
                             </div>
                         </div>
                         <div>
@@ -287,7 +282,7 @@
                                 </li>
                                 <li class="flex items-start">
                                     <span class="material-symbols-outlined text-primary mr-3 mt-1">location_on</span>
-                            <span class="text-text-muted-light dark:text-text-muted-dark">J{{ $hubungi['alamat'] }}</span>
+                            <span class="text-text-muted-light dark:text-text-muted-dark">{{ $hubungi['alamat'] }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -319,7 +314,7 @@
                     </div>
                     <div
                         class="border-t border-gray-200 dark:border-gray-700 pt-6 text-center text-sm text-text-muted-light dark:text-text-muted-dark">
-                        <p>Hak Cipta © Copyright 2025. Double R Coffee.</p>
+                        <p>Hak Cipta© Copyright 2026. Kopi Satu Bang @HoodHGL.</p>
                     </div>
                 </div>
             </footer>

@@ -38,8 +38,8 @@ class MenuController extends Controller
     public function menuMinuman()
     {
         // $Soda= menuModel::where('kategori', 'minuman')->where('jenis', 'Soda Based')->latest()->get();
-        $NonCoffe= menuModel::where('kategori', 'minuman')->where('jenis', 'Non Coffee')->get();
-        $Coffe= menuModel::where('kategori', 'minuman')->where('jenis', 'Coffee')->latest()->get();
+        $NonCoffe = menuModel::where('kategori', 'minuman')->where('jenis', 'Non Coffee')->get();
+        $Coffe = menuModel::where('kategori', 'minuman')->where('jenis', 'Coffee')->latest()->get();
 
         // dd($NonCoffe);
 
@@ -64,6 +64,8 @@ class MenuController extends Controller
         if (!$chosedMenu) {
             abort(404);
         }
+
+        // dd($chosedMenu);
 
         return view('User.detail-menu', compact('chosedMenu'));
     }
@@ -98,6 +100,8 @@ class MenuController extends Controller
     {
         $userId = session('id_pelanggan');
 
+        // dd($request->all());
+
         if (!$userId) {
             return redirect()
                 ->route('login')
@@ -116,7 +120,7 @@ class MenuController extends Controller
         $found = false;
 
         foreach ($keranjang as $index => $item) {
-            if ($item['id'] == $menu->id_menu) {
+            if ($item['id'] == $menu->id_menu &&  ($item['catatan'] == $request->temperature . ', ' . $request->sugar_level . ', ' . $request->ice_level || $item['catatan'] == $request->level_pedas)) {
                 $qtyBaru = $item['qty'] + $qtyRequest;
 
                 if ($qtyBaru > $menu->stok) {
@@ -145,7 +149,9 @@ class MenuController extends Controller
                 'qty' => $qtyRequest,
                 'stok' => $menu->stok,
                 'kategori' => $menu->kategori,
-                'options' => $menu->kategori === 'minuman' ? $this->getDefaultDrinkOptions() : [],
+                // 'options' => $menu->kategori === 'minuman' ? $this->getDefaultDrinkOptions() : [],
+                // 'catatan' => $request->level_pedas ?? $request->temperature . ', ' . $request->sugar_level . ', ' . $request->ice_level ?? '-',
+                'catatan' => $request->filled('level_pedas') ? $request->level_pedas : (implode(', ', array_filter([$request->temperature, $request->sugar_level, $request->ice_level])) ?: '-'),
             ];
         }
 
@@ -169,6 +175,8 @@ class MenuController extends Controller
 
         $keranjang = session($cartKey, []);
         $selected = session($selectedKey, []);
+
+        // dd($keranjang);
 
         foreach ($keranjang as &$item) {
             if (!isset($item['kategori']) && isset($item['id'])) {

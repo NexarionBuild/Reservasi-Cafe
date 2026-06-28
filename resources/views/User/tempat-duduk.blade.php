@@ -66,7 +66,7 @@
                         style="border: 1px solid rgb(204, 204, 204);">
                         <div class="grid grid-cols-1 gap-8 items-center">
                             <div class="flex flex-col h-full lg:order-first">
-                                <h2 class="text-2xl font-semibold mb-2 text-primary-dark dark:text-secondary">Indor 1</h2>
+                                <h2 class="text-2xl font-semibold mb-2 text-primary-dark dark:text-secondary">Indoor</h2>
                                 <p class="font-medium mb-4 text-gray-600 dark:text-gray-300">Pilih Ruangan</p>
                             </div>
                         </div>
@@ -78,7 +78,7 @@
                                 </button>
                                 <div class="bg-secondary/30 dark:bg-primary-dark rounded-lg overflow-hidden">
                                     <img alt="Stylish indoor seating area of the cafe" class="w-full h-75 object-cover"
-                                        src="{{ asset('images/ruangan' . 1 . '.jpg') }}" alt="ruangan Indor" />
+                                        src="{{ asset('images/ruangan' . 1 . '.jpg') }}" alt="ruangan Indoor" />
                                 </div>
                                 <button type="button"
                                     class="p-2 rounded-full bg-secondary/50 dark:bg-primary-dark hover:bg-primary hover:text-white transition-all duration-300">
@@ -88,7 +88,7 @@
                             <div class="flex flex-col h-full">
                                 <div>
                                     <div class="">
-                                        <button id="btn-submit" type="submit" name="ruangan" value="Indor1"
+                                        <button id="btn-submit" type="submit" name="ruangan" value="Indoor"
                                             class="w-full bg-primary text-white font-semibold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors shadow-soft-md hover:shadow-soft-lg transform hover:-translate-y-0.5">
                                             Selanjutnya
                                         </button>
@@ -103,7 +103,7 @@
                         style="border: 1px solid rgb(204, 204, 204);">
                         <div class="grid grid-cols-1 gap-6 items-center">
                             <div class="flex flex-col h-full">
-                                <h2 class="text-2xl font-semibold mb-2 text-primary-dark dark:text-secondary">Indor 1</h2>
+                                <h2 class="text-2xl font-semibold mb-2 text-primary-dark dark:text-secondary">Indoor</h2>
                                 <p class="font-medium mb-4 text-gray-600 dark:text-gray-300">Pilih Ruangan</p>
                             </div>
                         </div>
@@ -146,7 +146,7 @@
                         style="border: 1px solid rgb(204, 204, 204);">
                         <div class="grid grid-cols-1 gap-6 items-center">
                             <div class="flex flex-col h-full">
-                                <h2 class="text-2xl font-semibold mb-2 text-primary-dark dark:text-secondary">Outdor</h2>
+                                <h2 class="text-2xl font-semibold mb-2 text-primary-dark dark:text-secondary">Outdoor</h2>
                                 <p class="font-medium mb-4 text-gray-600 dark:text-gray-300">Pilih Ruangan</p>
                             </div>
                         </div>
@@ -228,7 +228,7 @@
                         style="border: 1px solid rgb(204, 204, 204);">
                         <div class="grid grid-cols-1 gap-8 items-center">
                             <div class="flex flex-col h-full lg:order-first">
-                                <h2 class="text-2xl font-semibold mb-2 text-primary-dark dark:text-secondary">Outdor</h2>
+                                <h2 class="text-2xl font-semibold mb-2 text-primary-dark dark:text-secondary">Outdoor</h2>
                                 <p class="font-medium mb-4 text-gray-600 dark:text-gray-300">Pilih Ruangan</p>
                             </div>
                         </div>
@@ -241,7 +241,7 @@
                             <div
                                 class="aspect-square flex-grow bg-secondary/30 dark:bg-primary-dark rounded-lg overflow-hidden">
                                 <img alt="Sunny outdoor patio seating area of the cafe" class="w-full h-full object-cover"
-                                    src="{{ asset('images/ruangan' . 2 . '.jpg') }}" alt="ruangan Outdor" />
+                                    src="{{ asset('images/ruangan' . 2 . '.jpg') }}" alt="ruangan Outdoor" />
                             </div>
                             <button type="button"
                                 class="p-2 rounded-full bg-secondary/50 dark:bg-primary-dark hover:bg-primary hover:text-white transition-all duration-300">
@@ -250,7 +250,7 @@
                         </div>
                         <div class="flex flex-col h-full lg:order-first">
                             <div>
-                                <button id="btn-submit" type="submit" name="ruangan" value="Outdor"
+                                <button id="btn-submit" type="submit" name="ruangan" value="Outdoor"
                                     class="w-full bg-primary text-white font-semibold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors shadow-soft-md hover:shadow-soft-lg transform hover:-translate-y-0.5">
                                     Selanjutnya
                                 </button>

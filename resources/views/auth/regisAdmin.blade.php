@@ -115,7 +115,7 @@
             </div>
         </div>
         <footer class="text-center mt-8">
-            <p class="text-xs text-gray-500 dark:text-gray-400">Hak Cipta © 2025. Cafe Management System.</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Hak Cipta© 2026. Kafe Management System.</p>
         </footer>
     </div>
 

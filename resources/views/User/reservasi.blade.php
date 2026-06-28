@@ -12,13 +12,20 @@
             <div class="max-w-2xl mx-auto bg-white  dark:bg-surface-dark rounded-lg shadow-lg p-6 sm:p-8 md:p-12">
                 <h1 class="text-3xl md:text-4xl font-bold text-center mb-8 text-primary">Reservasi</h1>
 
+                @if (session('gagal'))
+                    <div class="mb-4 flex items-center bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded shadow-md animate-bounce"
+                        role="alert">
+                        <p class="font-medium">{{ session('gagal') }}</p>
+                    </div>
+                @endif
                 {{-- {{ dd($keranjang) }} --}}
                 @foreach ($pelanggan as $id => $reservasi)
                     <form action="{{ route('form-reservasi') }}" method="POST">
                         @csrf
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1"
+                                <label
+                                    class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1"
                                     for="nama">Nama</label>
 
                                 <input
@@ -43,7 +50,7 @@
                                     for="waktu">Waktu</label>
                                 <input
                                     class="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary transition duration-150 ease-in-out shadow-sm"
-                                    id="waktu" name="waktu" type="time" min="10:00" max="21:00" />
+                                    id="waktu" name="waktu" type="time" min="11:00" max="22:00" />
                             </div> --}}
                             <div x-data="{
                                 waktu: '',
@@ -53,25 +60,25 @@
                                     // Ambil jam dan menit dari input
                                     const [hours, minutes] = this.waktu.split(':').map(Number);
                             
-                                    // Cek jika kurang dari jam 10
-                                    if (hours < 10) {
-                                        alert('Jam operasional dimulai pukul 10:00');
-                                        this.waktu = '10:00';
+                                    // Cek jika kurang dari jam 11
+                                    if (hours < 11) {
+                                        alert('Jam operasional dimulai pukul 11:00');
+                                        this.waktu = '11:00';
                                     }
-                                    // Cek jika lebih dari jam 21 (atau tepat jam 21 tapi menit lebih dari 00)
-                                    else if (hours > 21 || (hours === 21 && minutes > 0)) {
-                                        alert('Jam operasional berakhir pukul 21:00');
-                                        this.waktu = '21:00';
+                                    // Cek jika lebih dari jam 22 (atau tepat jam 22 tapi menit lebih dari 00)
+                                    else if (hours > 22 || (hours === 22 && minutes > 0)) {
+                                        alert('Jam operasional berakhir pukul 22:00');
+                                        this.waktu = '22:00';
                                     }
                                 }
                             }">
                                 <label
                                     class="block text-sm font-medium mb-1 text-text-muted-light dark:text-text-muted-dark"
                                     for="waktu">
-                                    Waktu Reservasi (10:00 - 21:00)
+                                    Waktu Reservasi (11:00 - 22:00)
                                 </label>
                                 <input id="waktu" name="waktu" type="time" x-model="waktu" @input="checkTime"
-                                    @blur="checkTime" min="10:00" max="21:00"
+                                    @blur="checkTime" min="11:00" max="22:00"
                                     class="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary transition duration-150 ease-in-out shadow-sm" />
                             </div>
 
@@ -82,7 +89,7 @@
                                     for="jumlah_tamu">Jumlah Tamu</label>
                                 <input
                                     class="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary transition duration-150 ease-in-out shadow-sm"
-                                    id="jumlah_tamu" min="1" name="jumlah_tamu" placeholder="Jumlah Tamu Maksimal 80"
+                                    id="jumlah_tamu" min="1" name="jumlah_tamu" placeholder="Jumlah Tamu Maksimal 50"
                                     type="number" />
                             </div>
                             {{-- <div>

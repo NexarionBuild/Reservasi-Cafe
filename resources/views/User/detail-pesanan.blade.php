@@ -99,13 +99,16 @@
                             <span>
                                 {{ $isReservasi ? 1 : $p['qty'] }}x
                                 <span>{{ $p['nama'] }}</span>
-                                @if (!empty($p['options']))
+                                <span class="mt-1 block text-xs text-gray-500">
+                                    {{ ucfirst(str_replace('_', ' ', $p['catatan'])) }}
+                                </span>
+                                {{-- @if (!empty($p['options']))
                                     <span class="mt-1 block text-xs text-gray-500">
                                         {{ ucfirst(str_replace('_', ' ', $p['options']['temperature'] ?? '')) }},
                                         {{ ucfirst(str_replace('_', ' ', $p['options']['sugar_level'] ?? '')) }},
-                                        {{ ucfirst(str_replace('_', ' ', $p['options']['ice_level'] ?? '')) }}
+                                        {{ ucfirst(str_replace('_', ' ', $p['options']['ice_level'] ?? '')) }},
                                     </span>
-                                @endif
+                                @endif --}}
                             </span>
                             <span>Rp. {{ number_format($p['harga'], 0, ',', '.') }}</span>
                         </div>
@@ -206,9 +209,9 @@
             if (!timerEl) return;
 
             // KUNCI 10 MENIT DI SINI
-            const sepuluhMenit = 10 * 60 * 1000; 
+            const sepuluhMenit = 10 * 60 * 1000;
             const deadline = Date.now() + sepuluhMenit;
-            
+
             let intervalId = null;
             let isTriggered = false;
 
@@ -221,22 +224,22 @@
                 isTriggered = true;
 
                 fetch("{{ route('transaksi.set-gagal') }}", {
-                    method: "POST",
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        window.location.href = "{{ route('pesanan.riwayat') }}";
-                    }
-                })
-                .catch(error => {
-                    console.error('Error saat memperbarui status transaksi:', error);
-                });
+                        method: "POST",
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                            "Content-Type": "application/json",
+                            "Accept": "application/json"
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            window.location.href = "{{ route('pesanan.riwayat') }}";
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error saat memperbarui status transaksi:', error);
+                    });
             }
 
             function updateTimer() {
@@ -260,4 +263,4 @@
             intervalId = setInterval(updateTimer, 1000);
         });
     </script>
-@endpush    
+@endpush

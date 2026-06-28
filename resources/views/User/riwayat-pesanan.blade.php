@@ -78,6 +78,7 @@
                                         </div>
                                         <div>
                                             <span class="font-semibold text-sm text-gray-900 dark:text-zinc-100 block line-clamp-1">{{ $item->nama_menu }}</span>
+                                            <span class="text-xs text-gray-400 dark:text-zinc-400 block mt-0.5">{{ $item->catatan }}</span></span>
                                             <span class="text-xs text-gray-400 dark:text-zinc-400 block mt-0.5">{{ $item->qty }}x &bull; <span class="font-mono">Rp {{ number_format($item->harga, 0, ',', '.') }}</span></span>
                                         </div>
                                     </div>

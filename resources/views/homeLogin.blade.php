@@ -6,7 +6,7 @@
     @php
         $hubungi = [
             'telepon1' => '+62-812-1234-1234',
-            'Email' => 'doubler.patrol@gmail.com',
+            'Email' => 'hihoodeastside@gmail.com',
             'alamat' => 'Jl. Nasional 1 Patrol, Kec. Patrol, Kab. Indramayu, Jawa Barat 45257',
         ];
         $contactPhone = '6287815349226';
@@ -36,7 +36,7 @@
         <section class="relative h-[calc(100vh-64px)] w-full overflow-hidden" id="hero-carousel" data-home-section="hero">
             <div class="relative h-full w-full">
                 @php
-                    $imageUrl = asset('images/imgCoffe.jpeg');
+                    $imageUrl = asset('images/DashboardUsr.png');
                 @endphp
 
                 <div class="absolute inset-0">
@@ -47,11 +47,11 @@
 
                 <div class="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 text-center">
                     <h1 class="mb-4 text-4xl font-bold text-white drop-shadow-lg md:text-6xl">
-                        The Perfect Roast
+                        Creating Warmth and Memories
                     </h1>
                     <p class="mb-8 max-w-2xl text-lg text-gray-200 drop-shadow-md md:text-xl">
-                        Nikmati aroma kopi autentik dan suasana nyaman hanya di kedai kami.
-                        Tempat terbaik untuk cerita dan inspirasi.
+                        Kopi Satu Bang @HoodHGL menciptakan suasana yang nyaman dan hangat, tempat di mana setiap kunjungan menjadi pengalaman yang menyenangkan, setiap percakapan terasa lebih bermakna, dan setiap momen layak untuk dikenang. 
+                        Rencanakan momen spesial Anda bersama kami. Lakukan reservasi dan nikmati suasana hangat dengan lebih tenang.
                     </p>
 
                     <a href="{{ route('menu-makanan') }}"
@@ -66,7 +66,7 @@
             <div class="container mx-auto px-6">
                 <div class="mx-auto max-w-4xl rounded-3xl bg-white p-8 shadow-md">
                     <div class="mb-6 text-center">
-                        <h2 class="font-display text-4xl font-bold text-primary">Saran & Kritik</h2>
+                        <h2 class="font-display text-4xl font-bold text-primary">Kritik & Saran</h2>
                         <p class="mt-3 text-text-muted-light">
                             Bantu kami meningkatkan pelayanan dengan masukan, saran, atau kritik Anda.
                         </p>
@@ -74,19 +74,18 @@
 
                     <div class="grid gap-6 md:grid-cols-2">
                         <div class="rounded-2xl bg-background-light p-5">
-                            <h3 class="text-lg font-semibold text-primary">Yang Bisa Disampaikan</h3>
+                            <h3 class="text-lg font-semibold text-primary">Hal yang Dapat Disampaikan</h3>
                             <ul class="mt-3 space-y-2 text-sm text-text-muted-light">
-                                <li>Kualitas rasa makanan dan minuman.</li>
-                                <li>Kenyamanan tempat dan pelayanan staf.</li>
-                                <li>Saran fitur pemesanan dan reservasi.</li>
+                                <li>Penilaian terhadap kualitas makanan dan minuman.</li>
+                                <li>Pengalaman terkait kenyamanan tempat dan pelayanan staf.</li>
+                                <li>Masukan dan saran untuk pengembangan fitur pemesanan serta reservasi.</li>
                             </ul>
                         </div>
 
                         <div class="rounded-2xl bg-background-light p-5">
                             <h3 class="text-lg font-semibold text-primary">Kirim Masukan</h3>
                             <p class="mt-3 text-sm text-text-muted-light">
-                                Jika ingin langsung menyampaikan masukan, Anda bisa menghubungi kami lewat WhatsApp.
-                            </p>
+                                Jangan ragu menghubungi kami melalui WhatsApp. Kami siap mendengarkan setiap masukan Anda dengan senang hati.
                             <a href="https://wa.me/{{ $contactPhone }}?text=Saya%20ingin%20memberikan%20saran%20dan%20kritik"
                                 class="mt-5 inline-flex rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90">
                                 Kirim via WhatsApp
@@ -103,7 +102,7 @@
                     <div class="mb-8 text-center">
                         <h2 class="font-display text-4xl font-bold text-primary">Kontak</h2>
                         <p class="mt-3 text-text-muted-light">
-                            Hubungi kami untuk reservasi, pertanyaan menu, atau informasi lainnya.
+                            Silakan hubungi kami jika Anda memiliki pertanyaan dan kebutuhan informasi lainnya terkait layanan kafe.
                         </p>
                     </div>
 
@@ -137,7 +136,7 @@
      <footer class="border-t border-primary/10 bg-card-light py-6" data-home-footer>
             <div class="container mx-auto px-6 text-center">
                 <p class="text-sm text-text-muted-light">
-                    Hak Cipta © Copyright 2025. Kopi Senja.
+                    Hak Cipta© Copyright 2026. Kopi Satu Bang @HoodHGL.
                 </p>
             </div>
         </footer>

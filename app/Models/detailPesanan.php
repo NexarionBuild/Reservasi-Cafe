@@ -17,6 +17,7 @@ class DetailPesanan extends Model
         'id_transaksi',
         'id_menu',
         'qty',
+        'catatan',
     ];
 
     /**

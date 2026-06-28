@@ -290,8 +290,10 @@
                                     <li>
                                         (x${p.total_qty}) ${p.nama_menu}
                                         - Rp ${Number(p.subtotal).toLocaleString()}
+                                        <br>
+                                        ${p.catatan}
                                     </li>
-                                `;
+                                    `;
                                 });
 
                                 html += `</ul>`;

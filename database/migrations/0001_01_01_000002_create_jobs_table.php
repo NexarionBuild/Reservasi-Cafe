@@ -104,6 +104,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_transaksi');
             $table->unsignedBigInteger('id_menu');
             $table->integer('qty');
+            $table->text('catatan');
             $table->timestamps();
 
             $table->foreign('id_transaksi')

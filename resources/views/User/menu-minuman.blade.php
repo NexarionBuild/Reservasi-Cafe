@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Makanan')
+@section('title', 'Minuman')
 
 @section('content')
     <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-6 sm:py-10">
@@ -44,7 +44,7 @@
         <!-- Pastikan menggunakan h-auto agar kontainer memanjang ke bawah saat data bertambah -->
         <div class="mt-10 w-full h-auto clear-both block relative">
             <p class="font-bold text-gray-600 mb-6">
-                - Non sCoffee
+                - Non Coffee
             </p>
 
             <!-- Grid otomatis turun ke bawah (auto-row) saat item lebih dari 4 -->

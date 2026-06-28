@@ -33,7 +33,7 @@ class PesananController extends Controller
             $transaksi->items = DB::table('detail_pesanan')
                 ->join('menu', 'detail_pesanan.id_menu', '=', 'menu.id_menu')
                 ->where('detail_pesanan.id_transaksi', $transaksi->id_transaksi)
-                ->select('detail_pesanan.qty', 'menu.nama_menu', 'menu.harga', 'menu.kategori')
+                ->select('detail_pesanan.qty', 'menu.nama_menu', 'menu.harga', 'menu.kategori', 'detail_pesanan.catatan')
                 ->get();
         }
 
@@ -51,7 +51,7 @@ class PesananController extends Controller
             $gagal->items = DB::table('detail_pesanan')
                 ->join('menu', 'detail_pesanan.id_menu', '=', 'menu.id_menu')
                 ->where('detail_pesanan.id_transaksi', $gagal->id_transaksi)
-                ->select('detail_pesanan.qty', 'menu.nama_menu')
+                ->select('detail_pesanan.qty', 'menu.nama_menu', 'detail_pesanan.catatan')
                 ->get();
         }
 

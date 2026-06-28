@@ -107,6 +107,7 @@ class reservasiController extends Controller
         // $jumlahMeja = $request->jumlah_meja;
 
         if ($totalQty < $jumlahTamu) {
+            // dd("gagal");
             return back()->with('gagal', 'pastikan setiap tamu memesan makanan atau minuman minimal 1 pesanan, total pesanan anda: ' . $totalQty . ' total tamu yang anda inputkan ' . $jumlahTamu);
         }
 
@@ -380,6 +381,8 @@ class reservasiController extends Controller
         $paymentDeadlineAt = Carbon::parse($paymentDeadlineAt);
         $paymentExpired = Carbon::now()->greaterThan($paymentDeadlineAt);
 
+        // dd($keranjang);
+
         return view('User.detail-pesanan', compact(
             'data',
             'ruangan',
@@ -518,6 +521,7 @@ class reservasiController extends Controller
                     'id_transaksi' => $transaksi->id_transaksi,
                     'id_menu'      => $item['id'],
                     'qty'          => $item['qty'],
+                    'catatan'          => $item['catatan'],
                 ]);
             }
 

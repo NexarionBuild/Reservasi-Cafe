@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Cafe Admin Login</title>
+    <title>Login Kopi Satu Bang @HoodHGL</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
@@ -73,14 +73,15 @@
             <div class="mb-5 inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-700">
                 Informasi Sistem
             </div>
-            <h2 class="font-display text-3xl font-bold text-primary">Sistem Reservasi Berbasis Waktu</h2>
+            <h2 class="font-display text-3xl font-bold text-primary">Reservasi ini Berbasis Waktu</h2>
             <p class="mt-3 text-sm leading-7 text-slate-600">
-                Sistem ini berbasis waktu, jadi pemesanan dan reservasi mengikuti jadwal yang tersedia pada saat Anda
-                mengakses aplikasi. Klik <strong>Lanjut</strong> untuk memakai akun demo yang terisi otomatis.
+                Untuk menjaga ketersediaan reservasi bagi pelanggan lain, setiap reservasi memiliki batas waktu. Pelanggan diharapkan meninggalkan area reservasi sesuai jadwal yang telah ditentukan. 
+                Apabila melebihi waktu reservasi, pelanggan dapat dikenakan biaya tambahan sesuai kebijakan.
+                Klik <strong>Lanjut</strong> untuk menggunakan akun yang telah terisi otomatis.
             </p>
             <div class="mt-5 rounded-xl bg-slate-100 px-4 py-3 text-sm text-slate-700">
-                Username demo: <strong>budi</strong><br>
-                Password demo: <strong>budi</strong>
+                Username: <strong>budi</strong><br>
+                Password: <strong>budi</strong>
             </div>
             <div class="mt-6 flex flex-col gap-3 sm:flex-row">
                 <button
@@ -101,7 +102,7 @@
             <div
                 class="bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-lg shadow-2xl p-8 transform transition-all duration-500">
                 <div class="text-center mb-8">
-                    <h1 class="font-display text-4xl font-bold text-primary">Cafe Admin</h1>
+                    <h1 class="font-display text-4xl font-bold text-primary">Login Kopi Satu Bang @HoodHGL</h1>
                     <p class="text-slate-600 dark:text-slate-400 mt-2">Welcome back, please log in.</p>
                 </div>
                 @if (session('gagal'))
@@ -132,8 +133,16 @@
                             type="submit">Login</button>
                     </div>
                 </form>
+                <div class="mt-6 text-center">
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                        Silakan daftar jika Anda belum memiliki akun
+                        <a class="font-medium text-primary hover:text-opacity-80" href="{{ route('register') }}">
+                            Masuk di sini
+                        </a>
+                    </p>
+                </div>
                 <div class="mt-8 text-center">
-                    <p class="text-xs text-slate-500 dark:text-slate-500">Hak Cipta © 2025. Cafe Management System.</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-500">Hak Cipta© 2026. Kopi Satu Bang Management System.</p>
                 </div>
             </div>
         </div>

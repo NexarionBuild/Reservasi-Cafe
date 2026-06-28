@@ -37,7 +37,7 @@ class dataReservasi extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
-        // dd($reservasi->get());
+        // dd($reservasi);
 
         return view('admin.riwayat', compact('reservasi', 'search'));
     }
@@ -168,6 +168,7 @@ class dataReservasi extends Controller
             ->select(
                 'menu.id_menu',
                 'menu.nama_menu',
+                'detail_pesanan.catatan',
                 DB::raw('SUM(detail_pesanan.qty) as total_qty'),
                 'menu.harga',
                 DB::raw('SUM(detail_pesanan.qty * menu.harga) as subtotal')
@@ -175,7 +176,8 @@ class dataReservasi extends Controller
             ->groupBy(
                 'menu.id_menu',
                 'menu.nama_menu',
-                'menu.harga'
+                'menu.harga',
+                'detail_pesanan.catatan'
             )
             ->get();
 

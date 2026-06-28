@@ -61,7 +61,7 @@
                     </div>
 
                     <div class="w-full lg:w-1/2 text-center lg:text-left">
-                        <h3 class="text-3xl font-display text-primary mb-4">Tentang Cafe</h3>
+                        <h3 class="text-3xl font-display text-primary mb-4">Tentang Kopi Satu Bang @HoodHGL</h3>
                         <p class="text-text-muted-light dark:text-text-muted-dark leading-relaxed">
                             {{ file_exists(resource_path('tentang_kami.txt')) ? nl2br(e(file_get_contents(resource_path('tentang_kami.txt')))) : 'Belum ada deskripsi tentang cafe.' }}
                         </p>

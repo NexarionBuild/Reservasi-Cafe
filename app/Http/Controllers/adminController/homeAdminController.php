@@ -49,10 +49,12 @@ class homeAdminController extends Controller
 
         
         // Jumlah Meja    
-        $jumlahMejaIndoor = Meja::where('ruangan', 'Indoor')->count();
-        $jumlahMejaOutdoor = Meja::where('ruangan', 'Outdoor')->count();
+        // $jumlahMejaIndoor = Meja::where('ruangan', 'Indoor')->count();
+        // $jumlahMejaOutdoor = Meja::where('ruangan', 'Outdoor')->count();
+        // $totalMeja = $jumlahMejaIndoor + $jumlahMejaOutdoor;
 
-        $totalMeja = $jumlahMejaIndoor + $jumlahMejaOutdoor;
+        $totalMeja = DB::table('meja')->count();
+        // dd($totalMeja);
 
         // Jumlah Pelanggan
         $jumlahPelanggan = pelangganModel::count();
@@ -64,8 +66,8 @@ class homeAdminController extends Controller
             'labels',
             'data',
             'totalRevenue',
-            'jumlahMejaIndoor',
-            'jumlahMejaOutdoor',
+            // 'jumlahMejaIndoor',
+            // 'jumlahMejaOutdoor',
             'totalMeja',
             'jumlahPelanggan',
             'pesananMasuk',
