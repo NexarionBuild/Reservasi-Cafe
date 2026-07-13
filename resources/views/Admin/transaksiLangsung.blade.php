@@ -24,8 +24,8 @@
 
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="text-2xl font-bold">Pilih Menu</h2>
-                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Klik menu untuk menambahkan ke keranjang transaksi.
+                <h2 class="text-2xl font-bold text-gray-500 dark:text-amber-800 mt-1">Pilih Menu</h2>
+                <p class="text-sm text-gray-500 dark:text-amber-800 mt-1">Klik menu untuk menambahkan ke keranjang transaksi.
                 </p>
             </div>
 
@@ -42,12 +42,13 @@
         {{-- Filter kategori --}}
         <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
             <button type="button" data-filter="all"
-                class="filter-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-primary text-white">
+                class="filter-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-primary text-white hover:bg-primary/90">
                 Semua
             </button>
+
             @foreach ($kategoriList as $kategori)
                 <button type="button" data-filter="{{ $kategori }}"
-                    class="filter-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-card-dark text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-white/10 hover:bg-gray-100 dark:hover:bg-white/10">
+                    class="filter-btn shrink-0 px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-card-dark text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-white/10">
                     {{ $kategori }}
                 </button>
             @endforeach

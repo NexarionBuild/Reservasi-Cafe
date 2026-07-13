@@ -154,7 +154,7 @@ class PaymentController extends Controller
                 'id_pelanggan'     => $id_pelanggan,
                 'tanggal'          => $dataReservasi['tanggal'],
                 'waktu'            => $dataReservasi['waktu'],
-                'jumlah_tamu'      => $dataReservasi['jumlah_tamu'] ?? 1,
+                'jumlah_tamu'      => $dataReservasi['jumlahTamu'] ?? 1,
                 'ruangan'          => $ruangan,
                 'created_at'       => now(),
                 'updated_at'       => now(),

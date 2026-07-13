@@ -122,9 +122,14 @@ class dataReservasi extends Controller
          */
         $reservasi = DB::table('reservasi')
             ->leftJoin('pelanggan', 'reservasi.id_pelanggan', '=', 'pelanggan.id_pelanggan')
+            ->leftJoin('reservasi_meja', 'reservasi_meja.id_reservasi', '=', 'reservasi.id_reservasi')
+            ->leftJoin('meja', 'reservasi_meja.id_meja', '=', 'meja.id_meja')
             ->where('reservasi.id_reservasi', $id)
             ->select(
                 'reservasi.id_pelanggan',
+                'reservasi_meja.id_meja',
+                'meja.id_meja',
+                'meja.kode_meja',
                 'pelanggan.nama_pelanggan',
                 'reservasi.waktu',
                 'reservasi.jumlah_tamu',
@@ -192,7 +197,8 @@ class dataReservasi extends Controller
             'jumlah_tamu' => $reservasi->jumlah_tamu,
             'transaksi' => $transaksi,   // <-- tambahkan ini
             'pesanan' => $pesanan,
-            'bukti_pembayaran' => $reservasi->bukti_pembayaran
+            'bukti_pembayaran' => $reservasi->bukti_pembayaran,
+            'kode_meja' => $reservasi->kode_meja
         ]);
     }
 

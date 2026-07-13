@@ -250,9 +250,10 @@
                     }
 
                     let html = `
-                    <p><strong>Nama:</strong> ${data.nama_pelanggan}</p>
+                    <p><strong>Nama:</strong> ${data.nama_pelanggan ?? '-'}</p>
                     <p><strong>Waktu:</strong> ${data.waktu}</p>
                     <p><strong>Jumlah Tamu:</strong> ${data.jumlah_tamu}</p>
+                    <p><strong>Nomor meja:</strong> ${data.kode_meja}</p>
                     <hr class="my-2">
                 `;
 
@@ -291,7 +292,7 @@
                                         (x${p.total_qty}) ${p.nama_menu}
                                         - Rp ${Number(p.subtotal).toLocaleString()}
                                         <br>
-                                        ${p.catatan}
+                                        ${p.catatan ?? '-'}
                                     </li>
                                     `;
                                 });

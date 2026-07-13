@@ -27,7 +27,7 @@ return new class extends Migration
 
         Schema::create('reservasi', function (Blueprint $table) {
             $table->bigIncrements('id_reservasi');
-            $table->unsignedBigInteger('id_pelanggan');
+            $table->unsignedBigInteger('id_pelanggan')->nullable();
             // $table->unsignedBigInteger('id_pengelola')->nullable();
 
             $table->date('tanggal');
@@ -73,7 +73,7 @@ return new class extends Migration
 
         Schema::create('transaksi', function (Blueprint $table) {
             $table->bigIncrements('id_transaksi');
-            $table->unsignedBigInteger('id_pelanggan');
+            $table->unsignedBigInteger('id_pelanggan')->nullable();
             $table->unsignedBigInteger('id_pengelola')->nullable();
             $table->unsignedBigInteger('id_reservasi')->nullable();
 
