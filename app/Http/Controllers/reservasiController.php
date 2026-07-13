@@ -11,12 +11,26 @@ use App\Models\ReservasiMeja;
 use App\Models\admin\menuModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+
+use Xendit\Configuration;
+use Xendit\Invoice\InvoiceApi;
+use Xendit\Invoice\CreateInvoiceRequest;
 
 
 class reservasiController extends Controller
 {
+    // xendit
+    public function __construct()
+    {
+        // Inisialisasi API Key Xendit
+        // Configuration::setApiKey is not static; instantiate then set
+        $xenditConfig = new Configuration();
+        $xenditConfig->setApiKey(config('services.xendit.api_key'));
+    }
+
     // Download Transaksi (PDF)
     public function downloadTransaksi($id)
     {
@@ -225,6 +239,8 @@ class reservasiController extends Controller
 
     public function pilihTempatDuduk(Request $request)
     {
+        $id_pengelola = Session::get('id_pengelola');
+
         // dd($request->all());
 
         // $inputMeja = $request->id_meja;
@@ -263,7 +279,20 @@ class reservasiController extends Controller
         //     }
         // }
 
-        $waktuSession = Session::get('dataReservasi')['waktu'];
+        if ($id_pengelola != null) {
+            # code...
+            $waktuSession = now()->format('H:i:s');
+            $tanggalSession = now()->format('Y-m-d');
+            $daftarBarang = json_decode($request->items, true);
+            // dd($daftarBarang);
+            session::put('keranjangKasir', $daftarBarang);
+            // session(['keranjangKasir' => $daftarBarang]);
+        } else {
+            $waktuSession = Session::get('dataReservasi')['waktu'];
+            $tanggalSession = Session::get('dataReservasi')['tanggal'];
+        }
+
+        // dd($request->all());
 
         // Jika session hanya 5 karakter (contoh: "10:00"), tambahkan ":00" agar menjadi "10:00:00"
         if (strlen($waktuSession) == 5) {
@@ -273,13 +302,13 @@ class reservasiController extends Controller
         // menentukan meja yang dipilih
         $mejaDipilih = DB::table('meja')
             ->where('ruangan', $request->ruangan)
-            ->whereNotIn('id_meja', function ($query) use ($request, $waktuSession) {
+            ->whereNotIn('id_meja', function ($query) use ($request, $waktuSession, $tanggalSession) {
                 $query->select('reservasi_meja.id_meja')
                     ->from('reservasi_meja')
                     ->join('reservasi', 'reservasi_meja.id_reservasi', '=', 'reservasi.id_reservasi')
                     ->join('transaksi', 'reservasi_meja.id_reservasi', '=', 'transaksi.id_reservasi')
                     ->where('reservasi.ruangan', $request->ruangan)
-                    ->where('reservasi.tanggal', Session::get('dataReservasi')['tanggal'])
+                    ->where('reservasi.tanggal', $tanggalSession)
                     ->where('reservasi.waktu', $waktuSession)
                     ->where(function ($q) {
                         $q->whereIn('transaksi.status', ['tervalidasi', 'menunggu'])
@@ -291,14 +320,15 @@ class reservasiController extends Controller
             return back()->with('gagal', 'Maaf, tidak ada meja yang tersedia di ruangan ' . $request->ruangan . ' untuk waktu yang dipilih.');
         }
 
-
+        // dd($mejaDipilih->get());
 
         session::put('mejaDipilih', $mejaDipilih->first()->id_meja);
         session(['RuanganDipilih' => $request->ruangan]);
 
         // dd($mejaDipilih->first()->id_meja);
         // // Jika sudah cukup → lanjut ke detail pesanan
-        return redirect()->route('detail-pesanan');
+        // return redirect()->route('detail-pesanan');
+        return redirect()->route('checkout');
         // // return redirect()->route('detail-pesanan')->with('success', 'Semua meja berhasil dipilih!');
     }
 
@@ -573,6 +603,8 @@ class reservasiController extends Controller
             //     'dataReservasi',
             //     $cartKey
             // ]);
+
+
 
             return redirect()
                 ->route('detail-transaksi', $reservasi->id_reservasi)

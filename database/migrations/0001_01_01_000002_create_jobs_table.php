@@ -80,6 +80,7 @@ return new class extends Migration
             $table->integer('total');
             $table->string('metode_pembayaran', 25);
             $table->string('status', 25);
+            $table->text('checkout_url');
             $table->timestamps();
 
             $table->foreign('id_pelanggan')

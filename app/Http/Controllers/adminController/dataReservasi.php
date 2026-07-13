@@ -121,7 +121,7 @@ class dataReservasi extends Controller
          * Ambil data reservasi + pelanggan
          */
         $reservasi = DB::table('reservasi')
-            ->join('pelanggan', 'reservasi.id_pelanggan', '=', 'pelanggan.id_pelanggan')
+            ->leftJoin('pelanggan', 'reservasi.id_pelanggan', '=', 'pelanggan.id_pelanggan')
             ->where('reservasi.id_reservasi', $id)
             ->select(
                 'reservasi.id_pelanggan',

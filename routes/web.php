@@ -1,17 +1,21 @@
 <?php
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\adminController\homeAdminController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\MenuController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\DetailPesananController;
-use App\Http\Controllers\PesananController;
-use App\Http\Controllers\adminController\dataReservasi;
-use App\Http\Controllers\reservasiController;
-use App\Http\Controllers\adminController\dataUser;
-use App\Http\Controllers\adminController\mejaController;
-use App\Http\Controllers\regisController;
 use App\Http\Controllers\adminController\dataMenuController;
+use App\Http\Controllers\adminController\dataReservasi;
+use App\Http\Controllers\adminController\dataUser;
+use App\Http\Controllers\adminController\homeAdminController;
+use App\Http\Controllers\adminController\mejaController;
+use App\Http\Controllers\DetailPesananController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PesananController;
+use App\Http\Controllers\regisController;
+use App\Http\Controllers\reservasiController;
+// use App\Http\Controllers\XenditCallbackController;
+// use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Support\Facades\Route;
+
 
 
 // ========================================== MENU ==================================================================
@@ -86,6 +90,9 @@ Route::get('/menu-minuman', [MenuController::class, 'menuMinuman'])->name('menu-
 Route::get('/detail-pesanan', [App\Http\Controllers\reservasiController::class, 'detailPesanan'])->name('detail-pesanan');
 Route::post('/upload-bukti', [App\Http\Controllers\reservasiController::class, 'uploadBukti'])->name('upload-bukti');
 
+// chekout
+Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+
 
 // detail transaksi
 Route::get('/detail-transaksi/{id}', [App\Http\Controllers\reservasiController::class, 'detailTransaksi'])->name('detail-transaksi');
@@ -110,6 +117,9 @@ Route::post('/form-registerAdmin', [RegisController::class, 'storeAdmin'])->name
 
 // Home admin
 Route::get('/admin/dashboard', [homeAdminController::class, 'home'])->name('admin.dashboard');
+
+// transaksi langsung admin
+Route::get('/admin/transaksi-langsung', [homeAdminController::class, 'transaksiLangsung'])->name('admin.transaksiLangsung');
 
 
 // logout admin
@@ -307,6 +317,10 @@ Route::post('/admin/setting/update-qris', function (\Illuminate\Http\Request $re
     }
     return back()->with('error', 'Tidak ada file yang diupload!');
 })->name('update-qris');
+
+
+// // webhok xendit
+// Route::post('/xendit/callback', [XenditCallbackController::class, 'handleCallback']);
 
 
 // HAPUS SESSION

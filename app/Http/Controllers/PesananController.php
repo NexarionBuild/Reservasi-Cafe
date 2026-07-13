@@ -28,6 +28,8 @@ class PesananController extends Controller
             ->orderBy('id_transaksi', 'desc')
             ->get();
 
+        // dd($pesananSukses);
+
         // Ambil data detail item menu untuk setiap transaksi aktif
         foreach ($pesananSukses as $transaksi) {
             $transaksi->items = DB::table('detail_pesanan')

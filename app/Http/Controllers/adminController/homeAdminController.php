@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\adminController;
+
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,7 +17,8 @@ use Carbon\CarbonPeriod;
 class homeAdminController extends Controller
 {
     // home admin
-    public function home(){
+    public function home()
+    {
 
         // ===== DATA CHART RESERVASI (punyamu yang sekarang) =====
         $reservasi = Reservasi::selectRaw('tanggal, COUNT(*) as total')
@@ -47,7 +49,7 @@ class homeAdminController extends Controller
             ->sum('total');
 
 
-        
+
         // Jumlah Meja    
         // $jumlahMejaIndoor = Meja::where('ruangan', 'Indoor')->count();
         // $jumlahMejaOutdoor = Meja::where('ruangan', 'Outdoor')->count();
@@ -74,11 +76,12 @@ class homeAdminController extends Controller
         ));
     }
 
-    public function dataUser(){
-       
-        $reservasi = reservasi::all(); 
+    public function dataUser()
+    {
+
+        $reservasi = reservasi::all();
         // atau pakai where jika perlu
-        
+
         return view('admin.datauser', compact('reservasi'));
     }
 
@@ -96,5 +99,22 @@ class homeAdminController extends Controller
         ));
     }
 
-    
+    // transaksi langsung admin
+    public function transaksiLangsung()
+    {
+        $labels = 'data';
+        $menus = DB::table('menu')->orderBy('kategori')->orderBy('nama_menu')->get();
+ 
+        // Daftar kategori diambil dinamis dari data yang ada,
+        // jadi kalau pengelola nambah kategori baru di DB, tab-nya otomatis muncul.
+        $kategoriList = $menus->pluck('kategori')->unique()->values();
+ 
+        return view('admin.transaksiLangsung', [
+            'menus'        => $menus,
+            'kategoriList' => $kategoriList,
+        ]);
+        // return view('admin.transaksiLangsung', compact(
+        //     'labels',
+        // ));
+    }
 }
