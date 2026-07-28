@@ -1,25 +1,18 @@
 @extends('layouts.admin') {{-- sesuaikan nama layout kalau berbeda --}}
 
 @section('content')
-    {{--
-        View ini menerima dari controller:
-        - $menus        => hasil DB::table('menu')->orderBy('kategori')->orderBy('nama_menu')->get()
-        - $kategoriList => daftar kategori unik (untuk tab filter)
-
-        Field tiap item $menus mengikuti kolom tabel `menu`:
-        id_menu, id_pengelola, nama_menu, kategori, harga, jenis, deskripsi, gambar, stok
-
-        PENTING — CSRF TOKEN:
-        Tag <head> TIDAK BOLEH diletakkan di sini (di dalam @section('content') / <body>).
-        Pastikan baris berikut ada di <head> layout utama kamu, misal
-        resources/views/layouts/admin.blade.php:
-
-            <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        Kalau layout kamu belum punya baris itu, tambahkan sekarang sebelum lanjut,
-        karena tanpa ini fetch checkout di bawah akan selalu gagal (403/419).
-    --}}
-
+@php
+$cart = $keranjang->map(function ($item) {
+    return [
+        'id'    => $item->id_menu,
+        'name'  => $item->nama_menu,
+        'price' => $item->harga,
+        'qty'   => $item->qty,
+        'stok'  => 999,
+        'note'  => $item->catatan,
+    ];
+});
+@endphp
     <div class="flex flex-col gap-6">
 
         <div class="flex items-center justify-between">
@@ -126,7 +119,7 @@
         <div class="border-t border-gray-200 dark:border-white/10 px-4 md:px-6 py-4 space-y-3">
 
             {{-- Pilihan ruangan --}}
-            <div>
+            {{-- <div>
                 <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Pilih Ruangan</p>
                 <div class="grid grid-cols-2 gap-2">
                     <button type="button" data-room="Indor1"
@@ -140,7 +133,9 @@
                         Outdor
                     </button>
                 </div>
-            </div>
+            </div> --}}
+
+            {{-- <input id="id_transaksi" type="text" value="{{ $id_transaksi }}" hidden> --}}
 
             <div class="flex items-center justify-between font-semibold">
                 <span>Total</span>
@@ -158,7 +153,7 @@
          jadi ini harus submit form biasa (full page navigation),
          BUKAN fetch/AJAX — supaya browser otomatis mengikuti redirect
          dan menampilkan halaman checkout seperti request form normal. --}}
-    <form id="checkoutForm" method="POST" action="{{ route('pilihTempatDuduk') }}" class="hidden">
+    <form id="checkoutForm" method="POST" action="{{ route('tambahanPesanan', ['id' => $id_transaksi]) }}" class="hidden">
         @csrf
         <input type="hidden" name="ruangan" id="inputRuangan">
         <input type="hidden" name="items" id="inputItems">
@@ -212,7 +207,9 @@
         });
 
         // ================= KERANJANG (CART) =================
-        let cart = [];
+        // let cart = [];
+        let cart = @json($cart);
+
 
         const cartSidebar = document.getElementById('cartSidebar');
         const cartOverlay = document.getElementById('cartOverlay');
@@ -398,6 +395,7 @@
         const checkoutForm = document.getElementById('checkoutForm');
         const inputRuangan = document.getElementById('inputRuangan');
         const inputItems = document.getElementById('inputItems');
+        // const id_transaksi = document.getElementById('id_transaksi');
 
         checkoutBtn.addEventListener('click', () => {
             if (cart.length === 0) {
@@ -413,6 +411,7 @@
                 catatan: item.note || null,
             }));
 
+            // id_transaksi.value = id_transaksi.value
             inputRuangan.value = selectedRoom;
             inputItems.value = JSON.stringify(items);
 

@@ -24,7 +24,7 @@ class PesananController extends Controller
         // ========================================================
         $pesananSukses = DB::table('transaksi')
             ->where('id_pelanggan', $idPelanggan)
-            ->whereIn(DB::raw('LOWER(status)'), ['menunggu', 'tervalidasi']) 
+            ->whereIn(DB::raw('LOWER(status)'), ['menunggu', 'tervalidasi','selesai']) 
             ->orderBy('id_transaksi', 'desc')
             ->get();
 
@@ -86,6 +86,7 @@ class PesananController extends Controller
 
         // 2. Ambil data reservasi pendukung (meja/ruangan) berdasarkan id_reservasi yang ada di transaksi
         $reservasi = DB::table('reservasi')->where('id_reservasi', $transaksi->id_reservasi)->first();
+        $reservasi_meja = DB::table('reservasi_meja')->where('id_reservasi', $transaksi->id_reservasi)->first();
 
         $meja = null;
         $ruangan = null;
@@ -93,15 +94,16 @@ class PesananController extends Controller
         if ($reservasi) {
             // 💡 TIPS: Cek apakah nama kolom di tabel reservasi kamu 'id_meja' atau 'nomor_meja'.
             // Kita gunakan isset() agar jika kolomnya tidak ada/berbeda nama, kodenya tidak memicu eror crash.
-            $foreignKeyMeja = $reservasi->id_meja ?? null; 
+            $foreignKeyMeja = $reservasi_meja->id_meja ?? null; 
 
             if ($foreignKeyMeja) {
-                $meja = DB::table('meja')->where('id_meja', $foreignKeyMeja)->first();
-                
+                $m = DB::table('meja')->where('id_meja', $foreignKeyMeja)->first();
+                $meja = $m->kode_meja;
+                $ruangan = $m->ruangan;
                 // Ambil data ruangan jika meja terhubung dengan ruangan
-                if ($meja && isset($meja->id_ruangan)) {
-                    $ruangan = DB::table('ruangan')->where('id_ruangan', $meja->id_ruangan)->first();
-                }
+                // if ($meja && isset($meja->id_ruangan)) {
+                //     $ruangan = DB::table('ruangan')->where('id_ruangan', $meja->id_ruangan)->first();
+                // }
             }
         }
 
@@ -134,7 +136,7 @@ class PesananController extends Controller
             'totalBayar'
         ));
 
-        return $pdf->download('Nota-KopiSenja-' . $id_transaksi . '.pdf');
+        return $pdf->download('Nota-Kopi-satu-' . $id_transaksi . '.pdf');
     }
 
 

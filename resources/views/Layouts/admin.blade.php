@@ -81,11 +81,11 @@
                         <span class="material-symbols-outlined fill-1">home</span>
                         Home
                     </a>
-                    <a class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-all font-medium"
+                    {{-- <a class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-all font-medium"
                         href="{{ route('admin.transaksiLangsung') }}">
                         <span class="material-symbols-outlined">payments</span>
                         Kasir
-                    </a>
+                    </a> --}}
                     <a class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-all font-medium"
                         href="{{ route('showMakanan') }}">
                         <span class="material-symbols-outlined">restaurant</span>
@@ -157,11 +157,11 @@
                         <span class="material-symbols-outlined fill-1">home</span>
                         Home
                     </a>
-                    <a class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-all font-medium"
+                    {{-- <a class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-all font-medium"
                         href="{{ route('admin.transaksiLangsung') }}">
                         <span class="material-symbols-outlined">payments</span>
                         Kasir
-                    </a>
+                    </a> --}}
                     <a class="group flex items-center gap-3 px-3 py-3 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white transition-all font-medium"
                         href="{{ route('showMakanan') }}">
                         <span class="material-symbols-outlined">restaurant</span>

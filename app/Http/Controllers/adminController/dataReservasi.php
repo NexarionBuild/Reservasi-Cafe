@@ -27,11 +27,16 @@ class dataReservasi extends Controller
                 'transaksi.status',
                 'reservasi_meja.id_meja',
                 'meja.kode_meja',
+                'transaksi.id_transaksi',
             )
+            // ->when($search, function ($query, $search) {
+            //     $query->whereHas('transaksi', function ($q) use ($search) {
+            //         $q->where('id_transaksi', 'like', "%{$search}%");
+            //     });
+            // })
             ->when($search, function ($query, $search) {
-                $query->whereHas('pelanggan', function ($q) use ($search) {
-                    $q->where('nama_pelanggan', 'like', "%{$search}%");
-                });
+                // PERBAIKAN: Gunakan where langsung ke kolom tabel transaksi, bukan whereHas
+                $query->where('transaksi.id_transaksi', 'like', "%{$search}%");
             })
             ->orderBy('reservasi.created_at', 'desc')
             ->paginate($perPage)

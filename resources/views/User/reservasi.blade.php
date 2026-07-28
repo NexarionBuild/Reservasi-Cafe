@@ -44,42 +44,82 @@
                                     value="{{ $reservasi->no_telepon }}" />
                             </div>
 
-                            {{-- <div>
-                                <label
-                                    class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1"
-                                    for="waktu">Waktu</label>
-                                <input
-                                    class="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary transition duration-150 ease-in-out shadow-sm"
-                                    id="waktu" name="waktu" type="time" min="11:00" max="22:00" />
-                            </div> --}}
+                     
+
                             <div x-data="{
-                                waktu: '',
-                                checkTime() {
-                                    if (!this.waktu) return;
+                                // Ambil tanggal hari ini format YYYY-MM-DD
+                                getTodayDate() {
+                                        const d = new Date();
+                                        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+                                    },
                             
-                                    // Ambil jam dan menit dari input
-                                    const [hours, minutes] = this.waktu.split(':').map(Number);
+                                    // Ambil tanggal 7 hari ke depan format YYYY-MM-DD
+                                    getMaxDate() {
+                                        const d = new Date();
+                                        d.setDate(d.getDate() + 7); // Tambahkan 7 hari dari hari ini
+                                        return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+                                    },
                             
-                                    // Cek jika kurang dari jam 11
-                                    if (hours < 11) {
-                                        alert('Jam operasional dimulai pukul 11:00');
-                                        this.waktu = '11:00';
+                                    // State data
+                                    tanggal: '',
+                                    waktu: '',
+                                    listJam: ['11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
+                            
+                                    // Reset pilihan waktu jika pengguna memilih tanggal yang berbeda
+                                    onTanggalChange() {
+                                        if (this.waktu && this.isTerlewat(this.waktu)) {
+                                            this.waktu = '';
+                                        }
+                                    },
+                            
+                                    // Fungsi cek jam terlewat
+                                    isTerlewat(jamMenit) {
+                                        if (!this.tanggal || this.tanggal !== this.getTodayDate()) {
+                                            return false;
+                                        }
+                            
+                                        const sekarang = new Date();
+                                        const jamSekarang = sekarang.getHours();
+                                        const menitSekarang = sekarang.getMinutes();
+                            
+                                        const [jamTarget, menitTarget] = jamMenit.split(':').map(Number);
+                            
+                                        if (jamSekarang > jamTarget) return true;
+                                        if (jamSekarang === jamTarget && menitSekarang > menitTarget) return true;
+                            
+                                        return false;
                                     }
-                                    // Cek jika lebih dari jam 22 (atau tepat jam 22 tapi menit lebih dari 00)
-                                    else if (hours > 22 || (hours === 22 && minutes > 0)) {
-                                        alert('Jam operasional berakhir pukul 22:00');
-                                        this.waktu = '22:00';
-                                    }
-                                }
-                            }">
-                                <label
-                                    class="block text-sm font-medium mb-1 text-text-muted-light dark:text-text-muted-dark"
-                                    for="waktu">
-                                    Waktu Reservasi (11:00 - 22:00)
-                                </label>
-                                <input id="waktu" name="waktu" type="time" x-model="waktu" @input="checkTime"
-                                    @blur="checkTime" min="11:00" max="22:00"
-                                    class="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary transition duration-150 ease-in-out shadow-sm" />
+                                }" x-init="tanggal = getTodayDate()">
+
+                                <!-- 1. INPUT TANGGAL -->
+                                <div class="mb-4">
+                                    <label
+                                        class="block text-sm font-medium mb-1 text-text-muted-light dark:text-text-muted-dark"
+                                        for="tanggal">
+                                        Tanggal Reservasi
+                                    </label>
+                                    <input name="tanggal" id="tanggal" type="date" x-model="tanggal"
+                                        @change="onTanggalChange()" :min="getTodayDate()" :max="getMaxDate()"
+                                        class="block w-full rounded-md border-gray-300">
+                                </div>
+
+                                <!-- 2. PILIHAN JAM RESERVASI -->
+                                <div>
+                                    <label
+                                        class="block text-sm font-medium mb-1 text-text-muted-light dark:text-text-muted-dark"
+                                        for="waktu">
+                                        Waktu Reservasi (11:00 - 22:00)
+                                    </label>
+
+                                    <select id="waktu" name="waktu" x-model="waktu"
+                                        class="block w-full rounded-md border-gray-300">
+                                        <option value="">Pilih Waktu</option>
+                                        <template x-for="jam in listJam" :key="jam">
+                                            <option :value="jam" x-text="jam" :disabled="isTerlewat(jam)">
+                                            </option>
+                                        </template>
+                                    </select>
+                                </div>
                             </div>
 
 
@@ -92,92 +132,8 @@
                                     id="jumlah_tamu" min="1" name="jumlah_tamu" placeholder="Jumlah Tamu Maksimal 50"
                                     type="number" />
                             </div>
-                            {{-- <div>
-                                <label
-                                    class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1"
-                                    for="jumlah_meja">Jumlah Meja</label>
-                                <input
-                                    class="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary transition duration-150 ease-in-out shadow-sm"
-                                    id="jumlah_meja" min="1" name="jumlah_meja" placeholder="1 Meja Maks 4 Orang"
-                                    type="number" />
-                            </div> --}}
 
-                            {{-- <div class="md:col-span-2" x-data="{
-                                tanggal: '',
-                                error: false,
-                                today: new Date().toISOString().split('T')[0],
-                                checkDate() {
-                                    this.error = this.tanggal < this.today;
-                                    }
-                                }">
-                                <label
-                                    class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1"
-                                    for="tanggal">
-                                    Tanggal
-                                </label>
-
-                                <div class="relative">
-                                    <input id="tanggal" name="tanggal" type="date" x-model="tanggal"
-                                        @change="checkDate" :min="today"
-                                        class="block w-full rounded-md border-gray-300 dark:border-gray-600 
-                                        bg-background-light dark:bg-background-dark 
-                                        focus:ring-primary focus:border-primary 
-                                        transition duration-150 ease-in-out shadow-sm pr-10"
-                                        :class="error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''" />
-                                </div>
-
-                                <!-- Pesan Error -->
-                                <p x-show="error" x-transition class="mt-1 text-sm text-red-600">
-                                    Tanggal tidak boleh sebelum hari ini
-                                </p>
-                            </div> --}}
-                            <div class="md:col-span-2" x-data="{
-                                tanggal: '',
-                                error: false,
-                                errorMessage: '',
-                                today: new Date().toISOString().split('T')[0],
-                            
-                                // Menghitung tanggal maksimal (hari ini + 7 hari)
-                                get maxDate() {
-                                    let date = new Date();
-                                    date.setDate(date.getDate() + 7);
-                                    return date.toISOString().split('T')[0];
-                                },
-                            
-                                checkDate() {
-                                    if (this.tanggal < this.today) {
-                                        this.error = true;
-                                        this.errorMessage = 'Tanggal tidak boleh sebelum hari ini';
-                                    } else if (this.tanggal > this.maxDate) {
-                                        this.error = true;
-                                        this.errorMessage = 'Pemesanan maksimal hanya boleh seminggu ke depan';
-                                    } else {
-                                        this.error = false;
-                                        this.errorMessage = '';
-                                    }
-                                }
-                            }">
-                                <label
-                                    class="block text-sm font-medium text-text-muted-light dark:text-text-muted-dark mb-1"
-                                    for="tanggal">
-                                    Tanggal
-                                </label>
-
-                                <div class="relative">
-                                    <input id="tanggal" name="tanggal" type="date" x-model="tanggal"
-                                        @change="checkDate" :min="today" :max="maxDate"
-                                        class="block w-full rounded-md border-gray-300 dark:border-gray-600 
-                                        bg-background-light dark:bg-background-dark 
-                                        focus:ring-primary focus:border-primary 
-                                        transition duration-150 ease-in-out shadow-sm pr-10"
-                                        :class="error ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : ''" />
-                                </div>
-
-                                <!-- Pesan Error Dinamis -->
-                                <p x-show="error" x-transition x-cloak class="mt-1 text-sm text-red-600">
-                                    <span x-text="errorMessage"></span>
-                                </p>
-                            </div>
+                         
                         </div>
                         <div class="mt-8">
                             <button
@@ -192,3 +148,12 @@
         </div>
     </main>
 @endsection
+<script>
+    function kunciMenit(input) {
+        if (input.value) {
+            // Mengambil 2 digit jam pertama, lalu memaksa menitnya menjadi :00
+            let jam = input.value.split(':')[0];
+            input.value = jam + ':00';
+        }
+    }
+</script>

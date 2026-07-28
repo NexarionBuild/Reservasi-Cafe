@@ -62,7 +62,9 @@ class homeAdminController extends Controller
         $jumlahPelanggan = pelangganModel::count();
 
         // Pesanan Masuk
-        $pesananMasuk = Transaksi::where('status', 'menunggu')->count();
+        $pesananMasuk = DB::table('transaksi')->count();
+
+        // dd($pesananMasuk);
 
         return view('admin.dashboard', compact(
             'labels',
@@ -113,6 +115,7 @@ class homeAdminController extends Controller
             'menus'        => $menus,
             'kategoriList' => $kategoriList,
         ]);
+        
         // return view('admin.transaksiLangsung', compact(
         //     'labels',
         // ));

@@ -12,7 +12,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PesananController;
 use App\Http\Controllers\regisController;
 use App\Http\Controllers\reservasiController;
-// use App\Http\Controllers\XenditCallbackController;
+use App\Http\Controllers\XenditCallbackController;
 // use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Support\Facades\Route;
 
@@ -92,6 +92,12 @@ Route::post('/upload-bukti', [App\Http\Controllers\reservasiController::class, '
 
 // chekout
 Route::get('/checkout', [PaymentController::class, 'checkout'])->name('checkout');
+// chekout lunas
+Route::post('/tambahan-pesanan/{id}', [PaymentController::class, 'tambahanPesanan'])->name('tambahanPesanan');
+Route::get('/checkout-lunas/{id}', [PaymentController::class, 'checkoutLunas'])->name('checkout.lunas');
+Route::post('/checkout-lunas/tunai', [PaymentController::class, 'checkoutTunai'])->name('checkout.tunai');
+Route::get('/batal-reservasi/{id}', [PaymentController::class, 'batalReservasi'])->name('batal.reservasi');
+
 
 
 // detail transaksi
@@ -119,7 +125,7 @@ Route::post('/form-registerAdmin', [RegisController::class, 'storeAdmin'])->name
 Route::get('/admin/dashboard', [homeAdminController::class, 'home'])->name('admin.dashboard');
 
 // transaksi langsung admin
-Route::get('/admin/transaksi-langsung', [homeAdminController::class, 'transaksiLangsung'])->name('admin.transaksiLangsung');
+Route::get('/admin/transaksi/tambahan-menu', [homeAdminController::class, 'transaksiLangsung'])->name('admin.transaksiLangsung');
 
 
 // logout admin
@@ -160,6 +166,9 @@ Route::get('/admin/data-reservasi/{id}/detail-json', [dataReservasi::class, 'det
 Route::post('/admin/transaksi/{id}/validasi', [dataReservasi::class, 'validasiTransaksi'])->name('transaksi.validasi');
 Route::delete('/admin/transaksi/{id}/hapus', [dataReservasi::class, 'hapusTransaksi'])->name('transaksi.hapus');
 Route::post('/admin/transaksi-selesai', [dataReservasi::class, 'ubahStatusTransaksi'])->name('kosongkan.meja');
+Route::get('/admin/data-reservasi/tambah-menu/{id}', [PaymentController::class, 'TambahanMenu'])->name('tambahan-menu');
+
+
 
 
 //DATA MEJA
@@ -320,7 +329,7 @@ Route::post('/admin/setting/update-qris', function (\Illuminate\Http\Request $re
 
 
 // // webhok xendit
-// Route::post('/xendit/callback', [XenditCallbackController::class, 'handleCallback']);
+Route::post('/xendit/callback', [XenditCallbackController::class, 'handleCallback']);
 
 
 // HAPUS SESSION

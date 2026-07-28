@@ -22,7 +22,7 @@
     <div class="header">
         <table style="width: 100%">
             <tr>
-                <td class="title">KOPI SENJA</td>
+                <td class="title">Cafe Kopi Satu Bang HGL</td>
                 <td style="text-align: right; color: #666; font-size: 12px;">NOTA DETAIL TRANSAKSI</td>
             </tr>
         </table>
@@ -37,9 +37,9 @@
                 Metode Bayar: {{ strtoupper($transaksi->metode_pembayaran) }}
             </td>
             <td style="text-align: right;">
-                <strong>No. Nota:</strong> #{{ $transaksi->id_transaksi }}<br>
+                <strong>ID. TRANSAKSI:</strong> #{{ $transaksi->id_transaksi }}<br>
                 <strong>Tanggal:</strong> {{ date('d M Y, H:i', strtotime($transaksi->created_at)) }} WIB<br>
-                <strong>Status:</strong> <span style="color: green;">{{ strtoupper($transaksi->status) }}</span>
+                <strong>Status:</strong> <span style="color: green;">{{ strtoupper($transaksi->status == 'tervalidasi' ? 'DP':$transaksi->status) }}</span>
             </td>
         </tr>
     </table>
@@ -48,8 +48,9 @@
     @if($reservasi)
     <div class="badge-reservasi">
         <strong>Informasi Tempat & Reservasi:</strong><br>
-        • Ruangan: {{ $ruangan->nama_ruangan ?? 'Dipilih via Session sebelumnya' }}<br>
-        • Nomor Meja: Meja Nomor {{ $meja->nomor_meja ?? '-' }}<br>
+        • ID RESERVASI: #{{ $reservasi->id_reservasi }}<br>
+        • Ruangan: {{ $ruangan == 'Indor1' ? 'indor':$ruangan }}<br>
+        • Nomor Meja: {{ $meja ?? '-' }}<br>
         • Tanggal Reservasi: {{ date('d M Y', strtotime($reservasi->tanggal)) }}
     </div>
     @endif

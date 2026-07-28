@@ -66,7 +66,9 @@
                                             class="text-[10px] font-bold bg-green-50 text-green-700 dark:bg-green-950/40 dark:text-green-400 px-2.5 py-1 rounded-full uppercase tracking-wider border border-green-200/40 dark:border-green-900/30">Selesai</span>
                                     @else
                                         <span
-                                            class="text-[10px] font-bold bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 px-2.5 py-1 rounded-full uppercase tracking-wider border border-blue-200/40 dark:border-blue-900/30">{{ $transaksi->status }}</span>
+                                            class="text-[10px] font-bold bg-blue-50 text-blue-700 dark:bg-blue-950/40 dark:text-blue-400 px-2.5 py-1 rounded-full uppercase tracking-wider border border-blue-200/40 dark:border-blue-900/30">
+                                            {{-- {{ $transaksi->status }} --}} DP
+                                        </span>
                                     @endif
                                     <span
                                         class="text-xs text-gray-400 dark:text-zinc-500 font-mono tracking-tight">ID-#{{ $transaksi->id_transaksi }}</span>

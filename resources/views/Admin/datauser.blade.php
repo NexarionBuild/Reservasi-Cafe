@@ -37,7 +37,7 @@
                         <th class="px-4 py-3 text-center">No</th>
                         <th class="px-4 py-3 text-left">Nama</th>
                         <th class="px-4 py-3 text-left">Nomor Telepon</th>
-                        <th class="px-4 py-3 text-left">Tgl Reservasi</th>
+                        {{-- <th class="px-4 py-3 text-left">Tgl Reservasi</th> --}}
                         <th class="px-4 py-3 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -64,9 +64,9 @@
                                     {{ $u->no_telepon }}
                                 </td>
         
-                                <td class="px-4 py-3">
+                                {{-- <td class="px-4 py-3">
                                     {{ $u->created_at }}
-                                </td>
+                                </td> --}}
         
                                 <td class="px-4 py-3">
                                     <div class="flex items-center justify-center gap-2">

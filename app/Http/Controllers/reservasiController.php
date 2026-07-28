@@ -316,6 +316,7 @@ class reservasiController extends Controller
                     });
             });
 
+        // dd($mejaDipilih);
         if ($mejaDipilih->get()->isEmpty()) {
             return back()->with('gagal', 'Maaf, tidak ada meja yang tersedia di ruangan ' . $request->ruangan . ' untuk waktu yang dipilih.');
         }

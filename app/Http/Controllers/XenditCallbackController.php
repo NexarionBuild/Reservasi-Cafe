@@ -18,14 +18,10 @@ class XenditCallbackController extends Controller
         // 2. Ambil data transaksi yang dikirim Xendit Invoice
         $externalId = $request->input('external_id');
         $status = $request->input('status'); // PAID atau EXPIRED
+        $jumlahDibayar = (float) $request->input('paid_amount'); 
 
-        // Akalin data uji coba teks dari tombol 'Test & Save' dashboard Xendit
-        // if (!is_numeric($externalId)) {
-        //     return response()->json([
-        //         'status' => 'success',
-        //         'message' => 'Koneksi berhasil! Data uji coba teks dari Xendit dilewati.'
-        //     ], 200);
-        // }
+        // $parts = explode('-', $externalIdXendit);
+        // $externalId = $parts[0]; 
 
         // 3. Cari data transaksi di database
         $order = DB::table('transaksi')->where('id_transaksi', $externalId)->first();
@@ -40,18 +36,34 @@ class XenditCallbackController extends Controller
 
         // 4. PERBAIKAN UTAMA: Cara update database yang benar untuk Query Builder (DB::table)
         if ($status === 'PAID') {
-            DB::table('transaksi')
-                ->where('id_transaksi', $externalId)
-                ->update([
-                    'status' => 'tervalidasi', // Menjaga konsistensi typo kolom Anda
-                    'metode_pembayaran' => $request->input('payment_method', 'Xendit'), // Otomatis catat metode (QRIS/EWALLET)
-                    'updated_at' => now(),
-                ]);
+
+            $sts = DB::table('transaksi')->where('id_transaksi', $externalId)->where('status', 'tervalidasi');
+
+            if ($sts->exists()) {
+                $dp = $sts->first()->total;
+                DB::table('transaksi')
+                    ->where('id_transaksi', $externalId)
+                    ->update([
+                        'status' => 'selesai', 
+                        'total' => $jumlahDibayar+$dp, 
+                        'metode_pembayaran' => $request->input('payment_method', 'Xendit'), // Otomatis catat metode (QRIS/EWALLET)
+                        'updated_at' => now(),
+                    ]);
+            }else{
+                DB::table('transaksi')
+                    ->where('id_transaksi', $externalId)
+                    ->update([
+                        'status' => 'tervalidasi',
+                        'total' => $jumlahDibayar, 
+                        'metode_pembayaran' => $request->input('payment_method', 'Xendit'), // Otomatis catat metode (QRIS/EWALLET)
+                        'updated_at' => now(),
+                    ]);
+            }
         } elseif ($status === 'EXPIRED') {
             DB::table('transaksi')
                 ->where('id_transaksi', $externalId)
                 ->update([
-                    'status' => 'EXPIRED',
+                    'status' => 'gagal',
                     'updated_at' => now(),
                 ]);
         }

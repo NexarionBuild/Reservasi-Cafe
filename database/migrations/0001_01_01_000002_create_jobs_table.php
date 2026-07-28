@@ -43,15 +43,7 @@ return new class extends Migration
                 ->references('id_pelanggan')
                 ->on('pelanggan');
 
-            // $table->foreign('id_meja')
-            //     ->references('id_meja')
-            //     ->on('meja');
-            // ->onDelete('cascade');
-
-            // $table->foreign('id_pengelola')
-            //     ->references('id_pengelola')
-            //     ->on('pengelola');
-            // ->nullOnDelete();
+           
         });
 
         Schema::create('menu', function (Blueprint $table) {
@@ -105,7 +97,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_transaksi');
             $table->unsignedBigInteger('id_menu');
             $table->integer('qty');
-            $table->text('catatan');
+            $table->text('catatan')->nullable();
             $table->timestamps();
 
             $table->foreign('id_transaksi')
@@ -144,14 +136,22 @@ return new class extends Migration
         });
     }
 
-    public function down(): void
+   public function down(): void
     {
+        // 1. Hapus tabel pivot / tabel anak yang bergantung pada tabel lain terlebih dahulu
+        Schema::dropIfExists('reservasi_meja');
         Schema::dropIfExists('detail_pesanan');
+        
+        // 2. Hapus transaksi karena bergantung pada reservasi, pelanggan, dan pengelola
         Schema::dropIfExists('transaksi');
+        
+        // 3. Hapus reservasi dan menu
         Schema::dropIfExists('reservasi');
         Schema::dropIfExists('menu');
+        
+        // 4. Terakhir, aman untuk menghapus tabel induk utama
+        Schema::dropIfExists('meja');
         Schema::dropIfExists('pelanggan');
         Schema::dropIfExists('pengelola');
-        Schema::dropIfExists('meja');
     }
 };
