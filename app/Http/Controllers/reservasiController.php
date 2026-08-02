@@ -81,7 +81,11 @@ class reservasiController extends Controller
                 ->get();
 
             // 🔥 QTY TERBARU SUDAH ADA
-            $keranjang = session($cartKey, []);
+            $data = session($cartKey, []);
+
+            $keranjang = collect($data)->sum('qty');
+
+            // dd($data, $keranjang);
 
             // dd($keranjang);
             return view('User.reservasi', compact('pelanggan', 'keranjang'));
@@ -121,8 +125,13 @@ class reservasiController extends Controller
         // $jumlahMeja = $request->jumlah_meja;
 
         if ($totalQty < $jumlahTamu) {
-            // dd("gagal");
             return back()->with('gagal', 'pastikan setiap tamu memesan makanan atau minuman minimal 1 pesanan, total pesanan anda: ' . $totalQty . ' total tamu yang anda inputkan ' . $jumlahTamu);
+        }
+        if ($jumlahTamu > 10) {
+            return back()->with('gagal', 'Jumlah tamu maximal 10.');
+        }
+        if ($jumlahTamu == 1 && $totalQty < 2) {
+            return back()->with('gagal', 'pastikan jika Jumlah tamu 1, maka total pesanan minimal 2');
         }
 
         // meja max 4 orang

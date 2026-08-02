@@ -129,7 +129,7 @@
                                     for="jumlah_tamu">Jumlah Tamu</label>
                                 <input
                                     class="block w-full rounded-md border-gray-300 dark:border-gray-600 bg-background-light dark:bg-background-dark focus:ring-primary focus:border-primary transition duration-150 ease-in-out shadow-sm"
-                                    id="jumlah_tamu" min="1" name="jumlah_tamu" placeholder="Jumlah Tamu Maksimal 50"
+                                    id="jumlah_tamu" min="1" name="jumlah_tamu" placeholder="Jumlah Tamu Maksimal 10"
                                     type="number" />
                             </div>
 
