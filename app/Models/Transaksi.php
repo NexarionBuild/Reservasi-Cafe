@@ -8,9 +8,11 @@ class Transaksi extends Model
 {
     protected $table = 'transaksi';
     protected $primaryKey = 'id_transaksi';
-    public $incrementing = true;
+    public $incrementing = false;
+    protected $keyType = 'string';
 
      protected $fillable = [
+        'id_transaksi',
         'id_pelanggan',
         'id_reservasi',
         'id_pengelola',

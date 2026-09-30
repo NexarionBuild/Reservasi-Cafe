@@ -36,6 +36,7 @@
                     <tr>
                         <th class="px-4 py-3 text-center">No</th>
                         <th class="px-4 py-3 text-left">Nama</th>
+                        <th class="px-4 py-3 text-left">Email</th>
                         <th class="px-4 py-3 text-left">Nomor Telepon</th>
                         {{-- <th class="px-4 py-3 text-left">Tgl Reservasi</th> --}}
                         <th class="px-4 py-3 text-center">Aksi</th>
@@ -60,6 +61,7 @@
                                 {{ $u->nama_pelanggan }}
                                 </td>
         
+                                <td class="px-4 py-3">{{ $u->email ?? '-' }}</td>
                                 <td class="px-4 py-3 font-medium">
                                     {{ $u->no_telepon }}
                                 </td>
@@ -68,18 +70,7 @@
                                     {{ $u->created_at }}
                                 </td> --}}
         
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center justify-center gap-2">
-        
-                                        <!-- EDIT -->
-                                        <a href="{{ route('editUser', $u->id_pelanggan) }}"
-                                            class="px-2 py-2 rounded-md
-                                        bg-blue-500 hover:bg-blue-600
-                                        text-white transition">
-                                            <span class="material-symbols-outlined text-[20px]">edit</span>
-                                        </a>
-                                    </div>
-                                </td>
+                                <td class="px-4 py-3 text-center text-gray-400">Tidak dapat diedit</td>
         
                             </tr>
                         @endforeach

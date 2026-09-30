@@ -5,21 +5,27 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use App\Models\DetailPesanan;
+use App\Models\admin\menuModel;
+use App\Models\pelangganModel;
+use App\Models\reservasi;
+use App\Support\TransactionId;
 use Illuminate\Support\Facades\Auth;
 // use App\Models\Order;
 use Xendit\Configuration;
 use Xendit\Invoice\InvoiceApi;
-use Xendit\Invoice\InvoiceItem;
 use Xendit\Invoice\CreateInvoiceRequest;
 
 class PaymentController extends Controller
 {
     public function __construct()
     {
-        // Inisialisasi API Key Xendit
-        Configuration::getDefaultConfiguration()->setApiKey(config('services.xendit.api_key'));
+        $apiKey = (string) config('services.xendit.api_key');
+        if ($apiKey !== '') {
+            Configuration::setXenditKey($apiKey);
+        }
     }
 
     public function checkout(Request $request)
@@ -50,6 +56,28 @@ class PaymentController extends Controller
         }
 
         $totalAmount = 0;
+        $menuList = [];
+        $xenditItems = [];
+
+        if (empty($keranjang)) {
+            return back()->with('gagal', 'Keranjang kosong. Silakan pilih menu terlebih dahulu.');
+        }
+
+        if (!$id_pengelola && (!$id_pelanggan || empty($dataReservasi) || empty($ruangan) || empty($mejaDipilih))) {
+            return redirect()->route('reservasi')->with('gagal', 'Data reservasi belum lengkap.');
+        }
+
+        if (empty(config('services.xendit.api_key'))) {
+            return back()->with('gagal', 'XENDIT_API_KEY belum dikonfigurasi pada file .env.');
+        }
+
+        foreach ($keranjang as $item) {
+            $menuDb = menuModel::find($item['id']);
+            if (!$menuDb || (int) $item['qty'] > (int) $menuDb->stok) {
+                $sisa = $menuDb ? $menuDb->stok : 0;
+                return back()->with('gagal', 'Stok menu ' . ($item['nama'] ?? '') . ' hanya tersisa ' . $sisa . '.');
+            }
+        }
 
         // Siapkan data untuk invoice
         foreach ($keranjang as $item) {
@@ -76,7 +104,7 @@ class PaymentController extends Controller
             $totalAmount += ($item['harga'] * $item['qty']);
         }
 
-        $totalAmount = $totalAmount / 2;
+        $totalAmount = round($totalAmount / 2, 0);
 
         // dd($totalAmount);
 
@@ -88,10 +116,10 @@ class PaymentController extends Controller
             $safeDescription = "Pembayaran Pesanan Makanan";
         }
 
-        // Buat External ID unik (contoh format: INV-timestamp)
-        $externalId = time();
+        // ID transaksi berurutan berdasarkan tanggal: YYYYMMDDNNNN
+        $externalId = TransactionId::next();
 
-        $id_reservasi = rand();
+        $id_reservasi = null;
 
         // data payment method
         if ($id_pengelola != null) {
@@ -130,14 +158,10 @@ class PaymentController extends Controller
                 // KUNCI UTAMA: Nilai ini WAJIB sama persis dengan total penjumlahan di atas
                 'amount'               => (float) $totalAmount,
 
-                'payer_email'          => 'customer@email.com',
+                'payer_email'          => optional(pelangganModel::find($id_pelanggan))->email ?? 'customer@email.com',
                 'description'          => 'pembayaran reservasi DP ',
-                'invoice_duration'     => 900,
+                'invoice_duration'     => 1800,
 
-                // Kirim array asosiatif item murni
-                'items'                => $xenditItems,
-
-                'invoice_callback_url' => 'https://deed-raisin-thesaurus.ngrok-free.dev',
                 'success_redirect_url' => $urlBerhasil,
                 'failure_redirect_url' => $urlGagal,
 
@@ -146,16 +170,28 @@ class PaymentController extends Controller
 
             $response = $apiInstance->createInvoice($createInvoiceRequest);
 
-            DB::table('reservasi')->insert([
-                'id_reservasi'     => $id_reservasi,
+            // Simpan reservasi melalui Eloquent agar Laravel selalu memakai
+            // primary key id_reservasi (bukan primary key default `id`).
+            // XENDIT_PENDING menjaga kompatibilitas dengan database lama yang
+            // masih memiliki bukti_pembayaran NOT NULL.
+            DB::beginTransaction();
+
+            $reservasiData = [
                 'id_pelanggan'     => $id_pelanggan,
                 'tanggal'          => $dataReservasi['tanggal'],
                 'waktu'            => $dataReservasi['waktu'],
-                'jumlah_tamu'      => $dataReservasi['jumlahTamu'] ?? 1,
+                'jumlah_tamu'      => $dataReservasi['jumlahTamu'] ?? $dataReservasi['jumlah_tamu'] ?? 1,
                 'ruangan'          => $ruangan,
-                'created_at'       => now(),
-                'updated_at'       => now(),
-            ]);
+                'bukti_pembayaran' => 'XENDIT_PENDING',
+            ];
+
+            if (Schema::hasColumn('reservasi', 'status_kehadiran')) {
+                $reservasiData['status_kehadiran'] = 'belum_hadir';
+            }
+
+            $reservasi = reservasi::create($reservasiData);
+
+            $id_reservasi = $reservasi->getKey();
 
             DB::table('reservasi_meja')->insert([
                 'id_reservasi'     => $id_reservasi,
@@ -170,7 +206,7 @@ class PaymentController extends Controller
                 'total'             => 0,
                 'status'            => 'menunggu',
                 'metode_pembayaran' => '',
-                'checkout_url'      => $response['invoice_url'],
+                'checkout_url'      => method_exists($response, 'getInvoiceUrl') ? $response->getInvoiceUrl() : $response['invoice_url'],
                 'created_at'        => now(),
                 'updated_at'        => now(),
             ]);
@@ -180,9 +216,11 @@ class PaymentController extends Controller
                     'id_transaksi' => $externalId,
                     'id_menu'      => $item['id'],
                     'qty'          => $item['qty'],
-                    'catatan'      => $item['catatan'],
+                    'catatan'      => $item['catatan'] ?? null,
                 ]);
             }
+
+            DB::commit();
 
             // Menghapus beberapa data session sekaligus
             if ($id_pelanggan != null) {
@@ -194,9 +232,17 @@ class PaymentController extends Controller
 
 
             // Redirect pengguna ke halaman pembayaran Xendit
-            return redirect($response['invoice_url']);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return redirect(method_exists($response, 'getInvoiceUrl') ? $response->getInvoiceUrl() : $response['invoice_url']);
+        } catch (\Throwable $e) {
+            if (DB::transactionLevel() > 0) {
+                DB::rollBack();
+            }
+
+            report($e);
+
+            return response()->json([
+                'error' => $e->getMessage(),
+            ], 500);
         }
     }
 
@@ -332,23 +378,28 @@ class PaymentController extends Controller
 
         // $idTransaksiBaru = (int) ($id . "-11");
 
+        $sisaPembayaran = max(0, $totalAmount - $dp);
+        if ($sisaPembayaran <= 0) {
+            return redirect()->route('reservasiData')->with('success', 'Transaksi sudah lunas.');
+        }
+
+        if (empty(config('services.xendit.api_key'))) {
+            return redirect()->back()->with('gagal', 'XENDIT_API_KEY belum dikonfigurasi pada file .env.');
+        }
+
         try {
             //code...
             $apiInstance = new InvoiceApi();
             $createInvoiceRequest = new CreateInvoiceRequest([
-                'external_id'          => (string) $id,
+                'external_id'          => (string) ($id . '-LUNAS-' . now()->format('His')),
 
                 // KUNCI UTAMA: Nilai ini WAJIB sama persis dengan total penjumlahan di atas
-                'amount'               => (float) $totalAmount - $dp,
+                'amount'               => (float) $sisaPembayaran,
 
-                'payer_email'          => 'customer@email.com',
+                'payer_email'          => optional(pelangganModel::find(optional(DB::table('transaksi')->where('id_transaksi', $id)->first())->id_pelanggan))->email ?? 'customer@email.com',
                 'description'          => 'Pelunasan Reservasi (Total Bayar DP: ' . $dp . ')',
-                'invoice_duration'     => 900,
+                'invoice_duration'     => 1800,
 
-                // Kirim array asosiatif item murni
-                'items'                => $xenditItems,
-
-                'invoice_callback_url' => 'https://deed-raisin-thesaurus.ngrok-free.dev',
                 'success_redirect_url' => url(route('reservasiData')),
                 'failure_redirect_url' => url(route('reservasiData')),
 
@@ -371,7 +422,7 @@ class PaymentController extends Controller
             // ]);
             $response = $apiInstance->createInvoice($createInvoiceRequest);
 
-            return redirect($response['invoice_url']);
+            return redirect(method_exists($response, 'getInvoiceUrl') ? $response->getInvoiceUrl() : $response['invoice_url']);
         } catch (\Throwable $th) {
             //throw $th;
             return response()->json(['error' => $th->getMessage()], 500);

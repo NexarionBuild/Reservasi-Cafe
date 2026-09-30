@@ -133,7 +133,7 @@
 
                             <!-- Tombol Submit -->
                             <div class="flex flex-col w-full mt-4">
-                                <button id="btn-submit" type="submit" name="ruangan" value="Indor1"
+                                <button id="btn-submit" type="submit" name="ruangan" value="Indoor"
                                     class="w-full bg-primary text-white font-semibold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors shadow-soft-md hover:shadow-soft-lg transform hover:-translate-y-0.5">
                                     Selanjutnya
                                 </button>
@@ -176,7 +176,7 @@
 
                             <!-- Tombol Submit -->
                             <div class="flex flex-col w-full mt-4">
-                                <button id="btn-submit" type="submit" name="ruangan" value="Outdor"
+                                <button id="btn-submit" type="submit" name="ruangan" value="Outdoor"
                                     class="w-full bg-primary text-white font-semibold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors shadow-soft-md hover:shadow-soft-lg transform hover:-translate-y-0.5">
                                     Selanjutnya
                                 </button>
@@ -190,7 +190,7 @@
                         style="border: 1px solid rgb(204, 204, 204);">
                         <div class="grid grid-cols-1 gap-8 items-center">
                             <div class="flex flex-col h-full lg:order-first">
-                                <h2 class="text-2xl font-semibold mb-2 text-primary-dark dark:text-secondary">Indor 2</h2>
+                                <h2 class="text-2xl font-semibold mb-2 text-primary-dark dark:text-secondary">Indoor</h2>
                                 <p class="font-medium mb-4 text-gray-600 dark:text-gray-300">Pilih Ruangan</p>
                             </div>
                         </div>
@@ -213,7 +213,7 @@
                             <div class="flex flex-col h-full">
                                 <div>
                                     <div class="">
-                                        <button id="btn-submit" type="submit" name="ruangan" value="Indor2"
+                                        <button id="btn-submit" type="submit" name="ruangan" value="Indoor"
                                             class="w-full bg-primary text-white font-semibold py-2 px-6 rounded-lg hover:bg-primary-dark transition-colors shadow-soft-md hover:shadow-soft-lg transform hover:-translate-y-0.5">
                                             Selanjutnya
                                         </button>

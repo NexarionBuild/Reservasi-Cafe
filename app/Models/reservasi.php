@@ -7,25 +7,22 @@ use Illuminate\Database\Eloquent\Model;
 class reservasi extends Model
 {
     protected $table = 'reservasi';
+
     protected $primaryKey = 'id_reservasi';
+
     public $incrementing = true;
 
+    protected $keyType = 'int';
+
     protected $fillable = [
-        'reservasi_meja',
-        'id_meja',
         'id_pelanggan',
-        'id_pengelola',
         'tanggal',
         'waktu',
         'jumlah_tamu',
         'ruangan',
-        'ruangan' => 'array',
-        'bukti_pembayaran'
+        'bukti_pembayaran',
+        'status_kehadiran',
     ];
-
-    // ========================
-    // RELASI
-    // ========================
 
     public function pelanggan()
     {
@@ -39,22 +36,19 @@ class reservasi extends Model
     public function pengelola()
     {
         return $this->belongsTo(
-            pengelolaModel::class,
+            PengelolaModel::class,
             'id_pengelola',
             'id_pengelola'
         );
     }
 
-    /**
-     * 🔥 RELASI KE MEJA (MELALUI PIVOT reservasi_meja)
-     */
     public function meja()
     {
         return $this->belongsToMany(
-            Meja::class,          // model tujuan
-            'reservasi_meja',     // tabel pivot
-            'id_reservasi',       // FK di pivot ke reservasi
-            'id_meja'             // FK di pivot ke meja
+            Meja::class,
+            'reservasi_meja',
+            'id_reservasi',
+            'id_meja'
         );
     }
 }

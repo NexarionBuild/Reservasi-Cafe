@@ -57,10 +57,9 @@
                             Rp {{ number_format($menu->harga, 0, ',', '.') }}
                         </p>
     
-                        {{-- INFO STOK --}}
-                        @if ($menu->stok == 0)
-                            <p class="text-xs text-red-500 mt-1">Stok habis</p>
-                        @endif
+                        <p class="text-xs mt-1 {{ $menu->stok > 0 ? 'text-gray-500' : 'text-red-500' }}">
+                            Sisa stok: {{ $menu->stok }}
+                        </p>
                     </div>
     
                     @if ($menu->stok > 0)
@@ -122,10 +121,9 @@
                             Rp {{ number_format($menu->harga, 0, ',', '.') }}
                         </p>
     
-                        {{-- INFO STOK --}}
-                        @if ($menu->stok == 0)
-                            <p class="text-xs text-red-500 mt-1">Stok habis</p>
-                        @endif
+                        <p class="text-xs mt-1 {{ $menu->stok > 0 ? 'text-gray-500' : 'text-red-500' }}">
+                            Sisa stok: {{ $menu->stok }}
+                        </p>
                     </div>
     
                     @if ($menu->stok > 0)
@@ -188,10 +186,9 @@
                             Rp {{ number_format($menu->harga, 0, ',', '.') }}
                         </p>
     
-                        {{-- INFO STOK --}}
-                        @if ($menu->stok == 0)
-                            <p class="text-xs text-red-500 mt-1">Stok habis</p>
-                        @endif
+                        <p class="text-xs mt-1 {{ $menu->stok > 0 ? 'text-gray-500' : 'text-red-500' }}">
+                            Sisa stok: {{ $menu->stok }}
+                        </p>
                     </div>
     
                     @if ($menu->stok > 0)

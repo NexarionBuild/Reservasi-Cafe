@@ -142,7 +142,7 @@ class dataReservasi extends Controller
             )
             ->first();
 
-        // ❌ Jika ID tidak ada (sudah dihapus)
+        // Jika ID tidak ada (sudah dihapus)
         if (!$reservasi) {
             return response()->json([
                 'message' => 'Data reservasi tidak ditemukan',
@@ -208,6 +208,15 @@ class dataReservasi extends Controller
     }
 
 
+    public function konfirmasiKehadiran($id)
+    {
+        $reservasi = Reservasi::findOrFail($id);
+        $reservasi->status_kehadiran = 'hadir';
+        $reservasi->save();
+
+        return redirect()->back()->with('success', 'Kehadiran pelanggan berhasil dikonfirmasi.');
+    }
+
     public function validasiTransaksi($id)
     {
         \Log::info('VALIDASI ID:', ['id' => $id]);
@@ -227,7 +236,7 @@ class dataReservasi extends Controller
         DB::beginTransaction();
 
         try {
-            // 1️⃣ Ambil transaksi
+            // 1️ Ambil transaksi
             $transaksi = Transaksi::findOrFail($id);
 
             if ($transaksi->status === 'tervalidasi') {
@@ -236,11 +245,11 @@ class dataReservasi extends Controller
                 ], 400);
             }
 
-            // 2️⃣ Update transaksi
+            // 2️ Update transaksi
             $transaksi->status = 'tervalidasi';
             $transaksi->save();
 
-            // 3️⃣ Update reservasi (BERDASARKAN ID PELANGGAN)
+            // 3️ Update reservasi (BERDASARKAN ID PELANGGAN)
             Transaksi::where('id_pelanggan', $transaksi->id_pelanggan)
                 ->update([
                     'id_pengelola' => $idPengelola

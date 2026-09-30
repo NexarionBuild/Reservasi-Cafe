@@ -122,15 +122,15 @@ $cart = $keranjang->map(function ($item) {
             {{-- <div>
                 <p class="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">Pilih Ruangan</p>
                 <div class="grid grid-cols-2 gap-2">
-                    <button type="button" data-room="Indor1"
+                    <button type="button" data-room="Indoor"
                         class="room-btn flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-sm font-medium border transition-colors bg-primary text-white border-primary">
                         <span class="material-symbols-outlined text-base">home</span>
-                        Indor
+                        Indoor
                     </button>
-                    <button type="button" data-room="Outdor"
+                    <button type="button" data-room="Outdoor"
                         class="room-btn flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-lg text-sm font-medium border transition-colors bg-white dark:bg-card-dark text-gray-700 dark:text-gray-300 border-gray-200 dark:border-white/10">
                         <span class="material-symbols-outlined text-base">deck</span>
-                        Outdor
+                        Outdoor
                     </button>
                 </div>
             </div> --}}
@@ -223,7 +223,7 @@ $cart = $keranjang->map(function ($item) {
         const mobileCartCountEl = document.getElementById('mobileCartCount');
         const checkoutBtn = document.getElementById('checkoutBtn');
         const roomButtons = document.querySelectorAll('.room-btn');
-        let selectedRoom = 'Indor1'; // default sesuai tombol yang aktif di awal
+        let selectedRoom = 'Indoor'; // default sesuai tombol yang aktif di awal
 
         roomButtons.forEach((btn) => {
             btn.addEventListener('click', () => {

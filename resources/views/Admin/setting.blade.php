@@ -94,14 +94,14 @@
                 @for ($i = 1; $i <= 2; $i++)
                     <div class="bg-background-light rounded-xl shadow p-5">
                         <h4 class="font-semibold text-primary mb-4">
-                            Edit Gambar Ruangan {{ $i === 1 ? 'Indor' : 'Outdor' }}
+                            Edit Gambar Ruangan {{ $i === 1 ? 'Indoor' : 'Outdoor' }}
                         </h4>
 
                         <form action="{{ route('update-foto-ruangan', ['ruangan' => $i]) }}" method="POST"
                             enctype="multipart/form-data">
                             @csrf
 
-                            <img src="{{ asset('images/ruangan' . $i . '.jpg') }}" alt="ruangan {{ $i === 1 ? 'Indor' : 'Outdor' }}"
+                            <img src="{{ asset('images/ruangan' . $i . '.jpg') }}" alt="ruangan {{ $i === 1 ? 'Indoor' : 'Outdoor' }}"
                                 class="w-full aspect-video object-cover rounded-lg border mb-3 text-black">
 
                             <input type="file" name="foto_ruangan"

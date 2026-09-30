@@ -34,6 +34,9 @@
                             <p class="text-green-600 font-semibold text-sm sm:text-base mt-1">
                                 Rp {{ number_format($menu->harga, 0, ',', '.') }}
                             </p>
+                            <p class="text-xs mt-1 {{ $menu->stok > 0 ? 'text-gray-500' : 'text-red-500' }}">
+                                Sisa stok: {{ $menu->stok }}
+                            </p>
                         </div>
                     </a>
                 @endforeach
@@ -66,6 +69,9 @@
                             </h3>
                             <p class="text-green-600 font-semibold text-sm sm:text-base mt-1">
                                 Rp {{ number_format($menu->harga, 0, ',', '.') }}
+                            </p>
+                            <p class="text-xs mt-1 {{ $menu->stok > 0 ? 'text-gray-500' : 'text-red-500' }}">
+                                Sisa stok: {{ $menu->stok }}
                             </p>
                         </div>
                     </a>
@@ -106,6 +112,9 @@
                             </h3>
                             <p class="text-green-600 font-semibold text-sm sm:text-base mt-1">
                                 Rp {{ number_format($menu->harga, 0, ',', '.') }}
+                            </p>
+                            <p class="text-xs mt-1 {{ $menu->stok > 0 ? 'text-gray-500' : 'text-red-500' }}">
+                                Sisa stok: {{ $menu->stok }}
                             </p>
                         </div>
                     </a>

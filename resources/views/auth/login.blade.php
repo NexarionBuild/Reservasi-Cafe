@@ -67,16 +67,16 @@
             </span>
         </div>
     @endif
-    <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm"
+    {{-- <div class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm"
         id="time-system-modal">
         <div class="w-full max-w-lg rounded-2xl border border-white/20 bg-white px-6 py-7 shadow-2xl">
             <div class="mb-5 inline-flex rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-amber-700">
                 Informasi Sistem
             </div>
-            <h2 class="font-display text-3xl font-bold text-primary">Reservasi ini Berbasis Waktu</h2>
+            <h2 class="font-display text-3xl font-bold text-primary">Ketentuan Waktu Reservasi</h2>
             <p class="mt-3 text-sm leading-7 text-slate-600">
-                Untuk menjaga ketersediaan reservasi bagi pelanggan lain, setiap reservasi memiliki batas waktu. Pelanggan diharapkan meninggalkan area reservasi sesuai jadwal yang telah ditentukan. 
-                Apabila melebihi waktu reservasi, pelanggan dapat dikenakan biaya tambahan sesuai kebijakan.
+                Reservasi tersedia pada pukul 11:00 WIB, 12:00 WIB, 13:00 WIB, dan seterusnya hingga 22:00 WIB 
+                Setiap satu jam sesuai dengan kebijakan dan jam operasional kafe.  
                 Klik <strong>Lanjut</strong> untuk menggunakan akun yang telah terisi otomatis.
             </p>
             <div class="mt-5 rounded-xl bg-slate-100 px-4 py-3 text-sm text-slate-700">
@@ -95,7 +95,7 @@
                 </a>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <div class="min-h-screen flex items-center justify-center p-4">
         <div class="w-full max-w-md perspective-card">

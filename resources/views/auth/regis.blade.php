@@ -71,11 +71,20 @@
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                        for="email">Email</label>
+                    <div class="mt-1">
+                        <input autocomplete="email" required value="{{ old('email') }}"
+                            class="block w-full rounded-DEFAULT border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-200 focus:ring-primary focus:border-primary"
+                            id="email" name="email" type="email" />
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300"
                         for="no_telepon">No. Telp</label>
                     <div class="mt-1">
                         <input autocomplete="no_telepon"
                             class="block w-full rounded-DEFAULT border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-primary focus:border-primary transition duration-150 ease-in-out"
-                            id="no_telepon" name="no_telepon" type="text" />
+                            id="no_telepon" name="no_telepon" type="tel" inputmode="numeric" pattern="[0-9]{9,15}" maxlength="15" oninput="this.value=this.value.replace(/[^0-9]/g,'')" />
                     </div>
                 </div>
                 <div>

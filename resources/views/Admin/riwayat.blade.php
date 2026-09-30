@@ -64,6 +64,7 @@
                         <th class="px-4 py-3 text-center">Jumlah Tamu</th>
                         <th class="px-4 py-3 text-center">Ruangan</th>
                         <th class="px-4 py-3 text-center">Meja</th>
+                        <th class="px-4 py-3 text-center">Kehadiran</th>
                         <th class="px-4 py-3 text-center">Aksi</th>
                     </tr>
                 </thead>
@@ -104,6 +105,17 @@
 
                                 <td class="px-4 py-3 text-center">
                                     {{ $r->kode_meja ?? '-' }}
+                                </td>
+
+                                <td class="px-4 py-3 text-center">
+                                    @if (($r->status_kehadiran ?? 'belum_hadir') === 'hadir')
+                                        <span class="px-2 py-1 rounded bg-green-100 text-green-700">Hadir</span>
+                                    @else
+                                        <form method="POST" action="{{ route('reservasi.kehadiran', $r->id_reservasi) }}">
+                                            @csrf
+                                            <button type="submit" class="px-2 py-1 rounded bg-amber-500 hover:bg-amber-600 text-white">Konfirmasi hadir</button>
+                                        </form>
+                                    @endif
                                 </td>
 
                                 <td class="px-4 py-3">

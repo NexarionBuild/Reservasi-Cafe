@@ -17,6 +17,7 @@ class pelangganModel extends Model
         // 'id_pelanggan',
         'nama_pelanggan',
         'username',
+        'email',
         'password',
         'no_telepon',
     ];

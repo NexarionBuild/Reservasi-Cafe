@@ -56,6 +56,7 @@
                                         Rp {{ number_format($menu->harga) }}
                                     </span>
                                 </p>
+                                <p class="mt-2 text-sm {{ $menu->stok > 0 ? 'text-gray-600' : 'text-red-600 font-semibold' }}">Sisa stok: {{ $menu->stok }}</p>
                             </div>
 
                             {{-- Sisi Kanan: Seluruh Tombol Opsi Minuman Berjajar --}}
@@ -253,8 +254,8 @@
                             <input type="hidden" name="gambar" value="{{ $menu->gambar }}">
                             {{-- <input type="hidden" name="qty" value="{{ $menu->qty }}"> --}}
 
-                            <button type="submit"
-                                class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-200">
+                            <button type="submit" {{ $menu->stok <= 0 ? 'disabled' : '' }}
+                                class="w-full sm:w-auto {{ $menu->stok > 0 ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed' }} text-white px-6 py-2 rounded-lg transition duration-200">
                                 + Keranjang
                             </button>
 

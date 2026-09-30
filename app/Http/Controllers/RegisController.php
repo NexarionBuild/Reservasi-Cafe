@@ -79,9 +79,10 @@ class RegisController extends Controller
         // dd($request->all()); 
         $request->validate([
             'nama_pelanggan' => 'required',
-            'username'       => 'required',
-            'password'       => 'required',
-            'no_telepon'     => 'required',
+            'username'       => 'required|string|max:50|unique:pelanggan,username',
+            'email'          => 'required|email|max:255|unique:pelanggan,email',
+            'password'       => 'required|min:6|confirmed',
+            'no_telepon'     => ['required','regex:/^[0-9]{9,15}$/'],
         ]);
 
         // Generate ID format: PEL-001, PEL-002, dst.
@@ -96,6 +97,7 @@ class RegisController extends Controller
             // 'id_pelanggan'   => Str::uuid(), // atau ubah se suai format ID kamu
             'nama_pelanggan' => $request->nama_pelanggan,
             'username'       => $request->username,
+            'email'          => $request->email,
             // 'password'       => Hash::make($request->password),
             'password'       => $request->password,
             'no_telepon'     => $request->no_telepon,

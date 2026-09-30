@@ -14,6 +14,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\DB;
+use App\Support\TransactionId;
 
 use Xendit\Configuration;
 use Xendit\Invoice\InvoiceApi;
@@ -25,10 +26,10 @@ class reservasiController extends Controller
     // xendit
     public function __construct()
     {
-        // Inisialisasi API Key Xendit
-        // Configuration::setApiKey is not static; instantiate then set
-        $xenditConfig = new Configuration();
-        $xenditConfig->setApiKey(config('services.xendit.api_key'));
+        $apiKey = (string) config('services.xendit.api_key');
+        if ($apiKey !== '') {
+            Configuration::setXenditKey($apiKey);
+        }
     }
 
     // Download Transaksi (PDF)
@@ -72,7 +73,7 @@ class reservasiController extends Controller
             // Mengambil Data Session
             $id_pelanggan = session('id_pelanggan');
 
-            // 🔑 WAJIB: definisikan cartKey
+            //  WAJIB: definisikan cartKey
             $cartKey = 'keranjang_' . $id_pelanggan;
 
             // Ambil data pelanggan
@@ -80,7 +81,7 @@ class reservasiController extends Controller
             $pelanggan = pelangganModel::where('id_pelanggan', '=', $id_pelanggan)
                 ->get();
 
-            // 🔥 QTY TERBARU SUDAH ADA
+            //  QTY TERBARU SUDAH ADA
             $data = session($cartKey, []);
 
             $keranjang = collect($data)->sum('qty');
@@ -108,7 +109,7 @@ class reservasiController extends Controller
         // Mengambil Data Session
         $id_pelanggan = session('id_pelanggan');
 
-        // 🔑 WAJIB: definisikan cartKey
+        // WAJIB: definisikan cartKey
         $cartKey = 'keranjang_' . $id_pelanggan;
 
         // keranjang 
@@ -188,7 +189,7 @@ class reservasiController extends Controller
         $jumlahMeja = $data['jumlahMeja'];
         $mejaDipilih = session('mejaDipilih', []);
 
-        $mejaIndoor = Meja::where('meja.ruangan', 'Indor1')
+        $mejaIndoor = Meja::where('meja.ruangan', 'Indoor')
             ->leftJoin('reservasi_meja', 'meja.id_meja', '=', 'reservasi_meja.id_meja')
             ->leftJoin('reservasi', function ($join) use ($inputTglReservasi) {
                 $join->on('reservasi_meja.id_reservasi', '=', 'reservasi.id_reservasi')
@@ -213,7 +214,7 @@ class reservasiController extends Controller
             ->orderBy('status', 'DESC') // Biar 'TERBOOKING' muncul duluan dibanding 'KOSONG' jika ada dua baris
             ->get();
 
-        $mejaOutdoor = Meja::where('meja.ruangan', 'Outdor')
+        $mejaOutdoor = Meja::where('meja.ruangan', 'Outdoor')
             ->leftJoin('reservasi_meja', 'meja.id_meja', '=', 'reservasi_meja.id_meja')
             ->leftJoin('reservasi', function ($join) use ($inputTglReservasi) {
                 $join->on('reservasi_meja.id_reservasi', '=', 'reservasi.id_reservasi')
@@ -364,7 +365,7 @@ class reservasiController extends Controller
         // dd($data);
 
         // ================================
-        // JALUR 1️⃣ : DARI RESERVASI
+        // JALUR 1️ : DARI RESERVASI
         // ================================
         if ($menuReservasi) {
 
@@ -373,14 +374,14 @@ class reservasiController extends Controller
                 'nama'   => $menuReservasi['nama'],
                 'harga'  => $menuReservasi['harga'],
                 'gambar' => $menuReservasi['gambar'],
-                'qty'    => $menuReservasi['qty'], // ✅
+                'qty'    => $menuReservasi['qty'], // 
             ]];
 
             $totalHarga = $menuReservasi['harga'] * $menuReservasi['qty'];
         }
 
         // ================================
-        // JALUR 2️⃣ : DARI KERANJANG
+        // JALUR 2️ : DARI KERANJANG
         // ================================
         elseif (!empty($keranjang)) {
 
@@ -414,7 +415,7 @@ class reservasiController extends Controller
 
         $paymentDeadlineAt = Session::get($paymentDeadlineKey);
         if (!$paymentDeadlineAt) {
-            $paymentDeadlineAt = Carbon::now()->addMinutes(1)->toDateTimeString();
+            $paymentDeadlineAt = Carbon::now()->addMinutes(30)->toDateTimeString();
             Session::put($paymentDeadlineKey, $paymentDeadlineAt);
         }
 
@@ -545,6 +546,7 @@ class reservasiController extends Controller
             // SIMPAN TRANSAKSI
             // =========================
             $transaksi = Transaksi::create([
+                'id_transaksi'       => TransactionId::next(),
                 'id_pelanggan'      => $id_pelanggan,
                 'id_reservasi'      => $reservasi->id_reservasi,
                 'id_pengelola'      => $id_pengelola,
@@ -561,7 +563,7 @@ class reservasiController extends Controller
                     'id_transaksi' => $transaksi->id_transaksi,
                     'id_menu'      => $item['id'],
                     'qty'          => $item['qty'],
-                    'catatan'          => $item['catatan'],
+                    'catatan'          => $item['catatan'] ?? null,
                 ]);
             }
 
@@ -571,7 +573,7 @@ class reservasiController extends Controller
             foreach ($pesananFinal as $item) {
 
                 $menu = MenuModel::where('id_menu', $item['id'])
-                    ->lockForUpdate() // 🔒 cegah race condition
+                    ->lockForUpdate() //  cegah race condition
                     ->firstOrFail();
 
                 // VALIDASI STOK
@@ -620,8 +622,10 @@ class reservasiController extends Controller
                 ->route('detail-transaksi', $reservasi->id_reservasi)
                 ->with('success', 'Bukti pembayaran berhasil diupload!');
         } catch (\Throwable $e) {
-            // DB::rollBack();
-            dd($e);
+            DB::rollBack();
+            report($e);
+
+            return redirect()->back()->with('gagal', 'Gagal menyimpan transaksi: ' . $e->getMessage());
         }
     }
 
@@ -679,7 +683,7 @@ class reservasiController extends Controller
 
         $pesanan = [];
 
-        // 1️⃣ Menu dari tombol reservasi
+        // 1️ Menu dari tombol reservasi
         if ($menuFromReservasi) {
             $pesanan[] = [
                 'id'     => $menuFromReservasi['id_menu'],
@@ -690,7 +694,7 @@ class reservasiController extends Controller
             ];
         }
 
-        // 2️⃣ Gabungkan keranjang
+        // 2️ Gabungkan keranjang
         foreach ($keranjang as $item) {
             $pesanan[] = $item;
         }
@@ -774,6 +778,7 @@ class reservasiController extends Controller
 
             // 2. Simpan ke tabel Transaksi menggunakan nama kolom yang sesuai dengan model Anda ('total')
             $transaksi = Transaksi::create([
+                'id_transaksi'       => TransactionId::next(),
                 'id_pelanggan'      => $id_pelanggan,
                 'id_reservasi'      => $reservasi->id_reservasi, // Menghubungkan foreign key
                 'id_pengelola'      => $id_pengelola,

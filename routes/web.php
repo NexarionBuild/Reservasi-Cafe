@@ -78,9 +78,6 @@ Route::post('/tempat-duduk', [App\Http\Controllers\reservasiController::class, '
 Route::get('/tempat-duduk', [App\Http\Controllers\reservasiController::class, 'showTempatDuduk'])->name('show-tempat-duduk');
 
 // POST pilih tempat duduk
-Route::post('/pilih-tempat', [App\Http\Controllers\reservasiController::class, 'pilihTempatDuduk'])->name('pilihTempatDuduk');
-
-
 Route::post('/pilih-tempat', [reservasiController::class, 'pilihTempatDuduk'])->name('pilihTempatDuduk');
 
 Route::get('/menu-minuman', [MenuController::class, 'menuMinuman'])->name('menu-minuman');
@@ -153,8 +150,6 @@ Route::get('/menu/{id}', [dataMenuController::class, 'show'])->name('menu.show')
 
 // DATA USER 
 Route::delete('/admin/hapus-user/{id}', [dataUser::class, 'hapusUser'])->name('hapusUser');
-Route::get('/admin/edit-user/{id}/edit', [dataUser::class, 'editUser'])->name('editUser');
-Route::post('/admin/data-user/{id}', [dataUser::class, 'updateUser'])->name('updateUser');
 Route::get('/admin/data-user', [dataUser::class, 'dataUserReservasi'])->name('dataUser');
 
 
@@ -164,6 +159,7 @@ Route::delete('/admin/hapus-reservasi/{id}', [dataReservasi::class, 'hapusReserv
 Route::get('/admin/data-reservasi/{id}/detail', [dataReservasi::class, 'detail'])->name('detailReservasi');
 Route::get('/admin/data-reservasi/{id}/detail-json', [dataReservasi::class, 'detailJson']);
 Route::post('/admin/transaksi/{id}/validasi', [dataReservasi::class, 'validasiTransaksi'])->name('transaksi.validasi');
+Route::post('/admin/reservasi/{id}/kehadiran', [dataReservasi::class, 'konfirmasiKehadiran'])->name('reservasi.kehadiran');
 Route::delete('/admin/transaksi/{id}/hapus', [dataReservasi::class, 'hapusTransaksi'])->name('transaksi.hapus');
 Route::post('/admin/transaksi-selesai', [dataReservasi::class, 'ubahStatusTransaksi'])->name('kosongkan.meja');
 Route::get('/admin/data-reservasi/tambah-menu/{id}', [PaymentController::class, 'TambahanMenu'])->name('tambahan-menu');
@@ -283,7 +279,7 @@ Route::post('/admin/setting/update-foto-slide/{slide}', function ($slide, \Illum
     return back()->with('success', 'Foto Slide ' . $slide . ' berhasil diupdate!');
 })->name('update-foto-slide');
 
-// Route dinamis untuk update foto ruangan indor dan outdor
+// Route dinamis untuk update foto ruangan indoor dan outdoor
 Route::post('/admin/setting/update-foto-ruangan/{ruangan}', function ($slide, \Illuminate\Http\Request $request) {
     // dd($request->all());
     if ($request->hasFile('foto_ruangan')) {
@@ -293,7 +289,7 @@ Route::post('/admin/setting/update-foto-ruangan/{ruangan}', function ($slide, \I
             $file->move(public_path('images'), 'ruangan' . $slideNum . '.jpg');
         }
     }
-    return back()->with('success', 'Foto ruangan ' . $slide === 1 ? 'Indor' : 'Outdor' . ' berhasil diupdate!');
+    return back()->with('success', 'Foto ruangan ' . $slide === 1 ? 'Indoor' : 'Outdoor' . ' berhasil diupdate!');
 })->name('update-foto-ruangan');
 
 

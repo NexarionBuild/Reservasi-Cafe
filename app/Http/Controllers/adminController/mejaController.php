@@ -14,8 +14,8 @@ class mejaController extends Controller
 
         public function showMeja()
         {
-            $mejaIndoor = Meja::where('ruangan', 'Indor1')->orWhere('ruangan', 'Indor2')->get();
-            $mejaOutdoor = Meja::where('ruangan', 'Outdor')->get();
+            $mejaIndoor = Meja::where('ruangan', 'Indoor')->orWhere('ruangan', 'Indoor')->get();
+            $mejaOutdoor = Meja::where('ruangan', 'Outdoor')->get();
             return view('admin.dataMeja', compact('mejaIndoor', 'mejaOutdoor'));
         }
 

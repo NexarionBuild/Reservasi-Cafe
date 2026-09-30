@@ -92,8 +92,7 @@ class PesananController extends Controller
         $ruangan = null;
 
         if ($reservasi) {
-            // 💡 TIPS: Cek apakah nama kolom di tabel reservasi kamu 'id_meja' atau 'nomor_meja'.
-            // Kita gunakan isset() agar jika kolomnya tidak ada/berbeda nama, kodenya tidak memicu eror crash.
+            
             $foreignKeyMeja = $reservasi_meja->id_meja ?? null; 
 
             if ($foreignKeyMeja) {

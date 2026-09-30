@@ -70,6 +70,13 @@ class dataMenuController extends Controller
     {
         $menu = menuModel::findOrFail($id);
 
+        $duplicate = menuModel::whereRaw('LOWER(nama_menu) = LOWER(?)', [trim($request->nama_menu)])
+            ->where('id_menu', '!=', $id)
+            ->exists();
+        if ($duplicate) {
+            return back()->withInput()->with('gagal', 'Nama menu sudah digunakan. Gunakan nama menu lain.');
+        }
+
         // Hapus gambar dari storage
         if ($menu->gambar && Storage::disk('public')->exists($menu->gambar)) {
             Storage::disk('public')->delete($menu->gambar);
@@ -168,6 +175,10 @@ class dataMenuController extends Controller
         ]);
 
         // dd($request->all());
+
+        if (menuModel::whereRaw('LOWER(nama_menu) = LOWER(?)', [trim($request->nama_menu)])->exists()) {
+            return back()->withInput()->with('gagal', 'Nama menu sudah digunakan. Gunakan nama menu lain.');
+        }
 
         // Simpan gambar
         $namaFile = Str::random(10) . '.' . $request->gambar->extension();
